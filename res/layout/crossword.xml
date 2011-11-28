@@ -81,6 +81,15 @@
 		    android:textAppearance="@style/GridFont"
             android:text="1x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_1_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
 	</LinearLayout>
 
     <LinearLayout
@@ -160,6 +169,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="2x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_2_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -239,6 +258,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="3x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_3_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -318,6 +347,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="4x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_4_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -397,6 +436,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="5x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_5_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -476,6 +525,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="6x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_6_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -555,6 +614,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="7x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_7_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -634,6 +703,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="1x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_8_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -713,6 +792,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="1x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_9_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
     <LinearLayout
@@ -792,6 +881,16 @@
 		    android:textAppearance="@style/GridFont"
             android:text="1x8" android:layout_weight="0.1"/>
 
+        <TextView
+            android:id="@+id/area_10_9"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+	   		android:background="@drawable/back"
+		    android:textAppearance="@style/GridFont"
+            android:text="1x8" android:layout_weight="0.1"/>
+        
+        
 	</LinearLayout>
         
 </LinearLayout>
