@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <name>grille test</name>
+  <horizontal>
+    <word x="1" y="1" description="Ceci est un test">charniere</word>
+    <word x="3" y="2" description="Pour dire salut">mou</word>
+    <word x="7" y="2" description="Good game">phi</word>
+    <word x="1" y="3" description="Good game">imitation</word>
+    <word x="1" y="4" description="Good game">nu</word>
+    <word x="4" y="4" description="Good game">age</word>
+    <word x="1" y="5" description="Good game">dentelees</word>
+    <word x="1" y="6" description="Good game">attiser</word>
+    <word x="7" y="7" description="Good game">ion</word>
+    <word x="1" y="8" description="Good game">esperanto</word>
+  </horizontal>
+  <vertical>
+    <word x="1" y="1" description="Ceci est un test">coindate</word>
+    <word x="2" y="3" description="Pour dire salut">muet</word>
+    <word x="3" y="1" description="Good game">ami</word>
+    <word x="4" y="1" description="Good game">rotative</word>
+    <word x="5" y="1" description="Good game">nuages</word>
+    <word x="6" y="3" description="Good game">tele</word>
+    <word x="7" y="1" description="Good game">epi</word>
+    <word x="7" y="5" description="Good game">erin</word>
+    <word x="8" y="1" description="Good game">rhone</word>
+    <word x="9" y="1" description="Good game">ein</word>
+    <word x="9" y="5" description="Good game">sono</word>
+  </vertical>
+</grid>
+
