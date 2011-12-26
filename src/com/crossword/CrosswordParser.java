@@ -8,21 +8,17 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.crossword.components.Word;
 public class CrosswordParser extends DefaultHandler {
 	
-	// Array list de feeds
-	private ArrayList<Word> entries;
-	// Boolean permettant de savoir si nous sommes à l'intérieur d'un item
-	private boolean inItem;
-	// Feed courant
-	private Word currentFeed;
-	// Buffer permettant de contenir les données d'un tag XML
-	private StringBuffer buffer;
+	private ArrayList<Word>	entries;
+	private boolean 		inItem;
+	private Word 			currentFeed;
+	private StringBuffer 	buffer;
 
-	private String name;
-	private String description;
-	private String difficulty;
-	private String date;
-	private String author;
-	private boolean inHorizontal;
+	private String 			name;
+	private String 			description;
+	private String 			difficulty;
+	private String 			date;
+	private String 			author;
+	private boolean			inHorizontal;
 
 	@Override
 	public void processingInstruction(String target, String data) throws SAXException {
@@ -66,8 +62,8 @@ public class CrosswordParser extends DefaultHandler {
 		
 		if (localName.equalsIgnoreCase("word")) {
 			this.currentFeed = new Word();
-			this.currentFeed.setX(Integer.parseInt(attributes.getValue("x")));
-			this.currentFeed.setY(Integer.parseInt(attributes.getValue("y")));
+			this.currentFeed.setX(Integer.parseInt(attributes.getValue("x"))-1);
+			this.currentFeed.setY(Integer.parseInt(attributes.getValue("y"))-1);
 			this.currentFeed.setDescription(attributes.getValue("description"));
 			this.currentFeed.setHorizontal(this.inHorizontal);
 		}

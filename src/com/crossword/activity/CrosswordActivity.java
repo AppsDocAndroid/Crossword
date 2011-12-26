@@ -56,12 +56,11 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
 	private boolean horizontal;
 
 	private int x;
-
 	private int y;
 
 	private GridAdapter gridAdapter;
-
 	private TextView description;
+	private ArrayList<View>	selectedArea = new ArrayList<View>();
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -98,8 +97,8 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
 	    for (Word entry: this.entries) {
 	    	String text = entry.getText();
 	    	boolean horizontal = entry.getHorizontal();
-	    	int x = entry.getX() - 1;
-	    	int y = entry.getY() - 1;
+	    	int x = entry.getX();
+	    	int y = entry.getY();
 	    	
 	    	Log.d("Crossword", "entry: " + text);
 	    	
@@ -155,11 +154,18 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
         {
             case MotionEvent.ACTION_DOWN:
             {
+            	// Redraw in white old child
+            	for (View child: selectedArea)
+            		child.setBackgroundResource(R.drawable.back);
+            		//child.setBackgroundColor(0xFFFFEA00 : 0xFFD5DBFF);
+
             	// Store grid position
             	this.position = this.grid.pointToPosition((int)event.getX(), (int)event.getY());
         		View child = this.grid.getChildAt(position);
         		if (child != null)
-        			child.setBackgroundColor(0xFFD5DBFF);
+            		child.setBackgroundResource(R.drawable.current);
+        		//child.setBackgroundColor(0xFFFFEA00);
+        		
         			//child.setBackgroundResource(R.drawable.back_select);
 
         		// store the X value when the user's finger was pressed down
@@ -170,10 +176,8 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
 
             case MotionEvent.ACTION_UP:
             {
-        		View child = this.grid.getChildAt(position);
-        		if (child != null)
-        			child.setBackgroundColor(0xFFFFFFFF);
-        			//child.setBackgroundResource(R.drawable.back);
+        		//if (child != null)
+        			//child.setBackgroundColor(0xFFFFFFFF);
 
         		// Get the X value when the user released his/her finger
                 float currentX = event.getX();            
@@ -186,12 +190,22 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
                 Word word = null;
         	    for (Word entry: this.entries) {
         	    	if (entry.getHorizontal() == horizontal)
-        	    		if (x >= entry.getX()-1 && x <= entry.getXMax()-1)
-        	    			if (y >= entry.getY()-1 && y <= entry.getYMax()-1)
+        	    		if (x >= entry.getX() && x <= entry.getXMax())
+        	    			if (y >= entry.getY() && y <= entry.getYMax())
         	    				word = entry;
         	    }
         	    
         	    this.description.setText(word.getDescription());
+
+        	    // Set background color
+        	    boolean horizontal = word.getHorizontal();
+        	    for (int l = 0; l < word.getLength(); l++) {
+        	    	int index = word.getY() * NUM_COLUMNS + word.getX() + (l * (horizontal ? 1 : NUM_COLUMNS));
+        	    	View child = this.grid.getChildAt(index);
+            		child.setBackgroundResource(index == this.position ? R.drawable.current : R.drawable.selected);
+            		//child.setBackgroundColor(index == this.position ? 0xFFFFEA00 : 0xFFD5DBFF);
+        	    	selectedArea.add(child);
+        		}
 
         	    break;
             }
