@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
     android:background="#555"
-    android:orientation="vertical" android:layout_gravity="top|center_horizontal" android:padding="5dp">
+    android:orientation="vertical"
+    android:padding="5dp" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -14,12 +16,14 @@
             android:id="@+id/icon_orientation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" android:layout_margin="5dp"/>
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
 
         <EditText
             android:id="@+id/text_input"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
 
             <requestFocus />
         </EditText>
@@ -27,8 +31,8 @@
         <ImageButton
             android:id="@+id/button_done"
             android:layout_width="wrap_content"
-            android:src="@android:drawable/checkbox_on_background" android:layout_height="wrap_content"/>
-
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/checkbox_on_background" />
     </LinearLayout>
 
     <TextView
@@ -43,5 +47,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="text_description" />
-        
+
 </LinearLayout>

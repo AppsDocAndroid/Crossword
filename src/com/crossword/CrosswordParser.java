@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import com.crossword.components.Word;
 public class CrosswordParser extends DefaultHandler {
 	
 	// Array list de feeds

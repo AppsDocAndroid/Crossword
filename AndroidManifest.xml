@@ -6,31 +6,37 @@
 
     <uses-sdk android:minSdkVersion="7" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:name="com.crossword.MyApplication" >
         <activity
             android:label="@string/app_name"
-            android:name=".MainActivity" >
+            android:name=".activity.MainActivity" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-		<activity
+        <activity
             android:label="@string/app_name"
-            android:name=".CrosswordActivity"
+            android:name=".activity.CrosswordActivity"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-        
-		<activity
+        <activity
             android:label="@string/app_name"
-            android:name=".CrosswordEditAreaActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" android:noHistory="true">
+            android:name=".activity.CategoryActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
-        
-		</application>
+        <activity
+            android:label="@string/app_name"
+            android:name=".activity.CrosswordEditAreaActivity"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+    </application>
 
 </manifest>

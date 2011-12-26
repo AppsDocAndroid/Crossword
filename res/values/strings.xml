@@ -3,5 +3,8 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Crossword</string>
+    <string name="exception_file_not_found">This file can not be found</string>
+    <string name="exception_grid_not_found">This grid can not be found</string>
+    <string name="exception_unknow">Unknow error occurs</string>
 
 </resources>
