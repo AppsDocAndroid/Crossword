@@ -8,6 +8,10 @@
 package com.crossword;
 
 public final class R {
+    public static final class anim {
+        public static final int keyboard_overlay_fade_in=0x7f040000;
+        public static final int keyboard_overlay_fade_out=0x7f040001;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -25,54 +29,56 @@ public final class R {
         public static final int keyboard=0x7f02000b;
         public static final int keyboard_delete=0x7f02000c;
         public static final int keyboard_done=0x7f02000d;
-        public static final int keyboard_pressed=0x7f02000e;
-        public static final int keyboard_release=0x7f02000f;
-        public static final int keyboard_return=0x7f020010;
-        public static final int keyboard_shift=0x7f020011;
-        public static final int keyboard_space=0x7f020012;
+        public static final int keyboard_overlay=0x7f02000e;
+        public static final int keyboard_pressed=0x7f02000f;
+        public static final int keyboard_release=0x7f020010;
+        public static final int keyboard_return=0x7f020011;
+        public static final int keyboard_shift=0x7f020012;
+        public static final int keyboard_space=0x7f020013;
     }
     public static final class id {
-        public static final int buttonA=0x7f060008;
-        public static final int buttonB=0x7f060021;
-        public static final int buttonC=0x7f06001f;
-        public static final int buttonD=0x7f060015;
-        public static final int buttonDELETE=0x7f060024;
-        public static final int buttonE=0x7f06000a;
-        public static final int buttonF=0x7f060016;
-        public static final int buttonG=0x7f060017;
-        public static final int buttonH=0x7f060018;
-        public static final int buttonI=0x7f06000f;
-        public static final int buttonJ=0x7f060019;
-        public static final int buttonK=0x7f06001a;
-        public static final int buttonL=0x7f06001b;
-        public static final int buttonM=0x7f060023;
-        public static final int buttonN=0x7f060022;
-        public static final int buttonO=0x7f060010;
-        public static final int buttonP=0x7f060011;
-        public static final int buttonQ=0x7f060013;
-        public static final int buttonR=0x7f06000b;
-        public static final int buttonS=0x7f060014;
-        public static final int buttonT=0x7f06000c;
-        public static final int buttonU=0x7f06000e;
-        public static final int buttonV=0x7f060020;
-        public static final int buttonW=0x7f06001d;
-        public static final int buttonX=0x7f06001e;
-        public static final int buttonY=0x7f06000d;
-        public static final int buttonZ=0x7f060009;
-        public static final int button_category=0x7f060027;
-        public static final int button_list=0x7f060026;
-        public static final int button_random=0x7f060025;
-        public static final int button_search=0x7f060028;
-        public static final int description=0x7f060002;
-        public static final int grid=0x7f060001;
-        public static final int gridListView=0x7f060004;
-        public static final int keyboard=0x7f060003;
-        public static final int linearLayout1=0x7f060007;
-        public static final int linearLayout2=0x7f060012;
-        public static final int linearLayout3=0x7f06001c;
-        public static final int main_layout=0x7f060000;
-        public static final int tvAuteur=0x7f060006;
-        public static final int tvTitre=0x7f060005;
+        public static final int buttonA=0x7f070009;
+        public static final int buttonB=0x7f070022;
+        public static final int buttonC=0x7f070020;
+        public static final int buttonD=0x7f070016;
+        public static final int buttonDELETE=0x7f070025;
+        public static final int buttonE=0x7f07000b;
+        public static final int buttonF=0x7f070017;
+        public static final int buttonG=0x7f070018;
+        public static final int buttonH=0x7f070019;
+        public static final int buttonI=0x7f070010;
+        public static final int buttonJ=0x7f07001a;
+        public static final int buttonK=0x7f07001b;
+        public static final int buttonL=0x7f07001c;
+        public static final int buttonM=0x7f070024;
+        public static final int buttonN=0x7f070023;
+        public static final int buttonO=0x7f070011;
+        public static final int buttonP=0x7f070012;
+        public static final int buttonQ=0x7f070014;
+        public static final int buttonR=0x7f07000c;
+        public static final int buttonS=0x7f070015;
+        public static final int buttonT=0x7f07000d;
+        public static final int buttonU=0x7f07000f;
+        public static final int buttonV=0x7f070021;
+        public static final int buttonW=0x7f07001e;
+        public static final int buttonX=0x7f07001f;
+        public static final int buttonY=0x7f07000e;
+        public static final int buttonZ=0x7f07000a;
+        public static final int button_category=0x7f070028;
+        public static final int button_list=0x7f070027;
+        public static final int button_random=0x7f070026;
+        public static final int button_search=0x7f070029;
+        public static final int description=0x7f070002;
+        public static final int grid=0x7f070001;
+        public static final int gridListView=0x7f070005;
+        public static final int keyboard=0x7f070003;
+        public static final int keyboard_overlay=0x7f070004;
+        public static final int linearLayout1=0x7f070008;
+        public static final int linearLayout2=0x7f070013;
+        public static final int linearLayout3=0x7f07001d;
+        public static final int main_layout=0x7f070000;
+        public static final int tvAuteur=0x7f070007;
+        public static final int tvTitre=0x7f070006;
     }
     public static final class layout {
         public static final int category=0x7f030000;
@@ -83,15 +89,15 @@ public final class R {
         public static final int main=0x7f030005;
     }
     public static final class string {
-        public static final int app_name=0x7f040001;
-        public static final int exception_file_not_found=0x7f040002;
-        public static final int exception_grid_not_found=0x7f040003;
-        public static final int exception_sav_not_found=0x7f040004;
-        public static final int exception_unknow=0x7f040005;
-        public static final int hello=0x7f040000;
+        public static final int app_name=0x7f050001;
+        public static final int exception_file_not_found=0x7f050002;
+        public static final int exception_grid_not_found=0x7f050003;
+        public static final int exception_sav_not_found=0x7f050004;
+        public static final int exception_unknow=0x7f050005;
+        public static final int hello=0x7f050000;
     }
     public static final class style {
-        public static final int GridFont=0x7f050000;
-        public static final int KeyboardButton=0x7f050001;
+        public static final int GridFont=0x7f060000;
+        public static final int KeyboardButton=0x7f060001;
     }
 }

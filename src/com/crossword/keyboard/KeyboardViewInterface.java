@@ -1,5 +1,7 @@
 package com.crossword.keyboard;
 
 public interface KeyboardViewInterface {
-	public void onReceiveKey(String string);
+	public void onKeyDown(String value, int location[], int width);
+	public void onKeyUp(String string);
+	
 }

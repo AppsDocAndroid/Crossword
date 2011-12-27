@@ -38,7 +38,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 	    this.gridListView.setOnItemClickListener(this);
 	    ArrayList<String> fileList = new ArrayList<String>();
 
-	    File directoryToScan = new File(CrosswordActivity.SAV_DIRECTORY); 
+	    File directoryToScan = new File(CrosswordActivity.GRID_DIRECTORY); 
 	    File files []= directoryToScan.listFiles();
 	    for (File file: files)
 	    	fileList.add(file.getName());

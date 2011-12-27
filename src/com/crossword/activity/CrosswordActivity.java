@@ -17,25 +17,31 @@ import com.crossword.components.Word;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class CrosswordActivity extends Activity implements OnTouchListener, KeyboardViewInterface {
 
-	public static final String SAV_DIRECTORY = "/data/data/com.crossword/sav/";
-	public static final String GRID_DIRECTORY = "/data/data/com.crossword/grid/";
-	public final static int GRID_WIDTH = 9;
-	public final static int GRID_HEIGHT = 10;
+	public static final String	GRID_DIRECTORY = "/data/data/com.crossword/grid/";
+	public static final int 	GRID_WIDTH = 9;
+	public static final int 	GRID_HEIGHT = 10;
+	public static final float 	KEYBOARD_OVERLAY_OFFSET = 90;
 
 	private GridView 		grid;
 	private KeyboardView 	keyboardView;
 	private GridAdapter 	gridAdapter;
 	private TextView 		txtDescription;
+	private TextView 		keyboardOverlay;
 
 	private String[][]		area;			// Tableau représentant les lettres
 	private ArrayList<Word> entries;		// Liste des mots
@@ -66,14 +72,19 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
         this.keyboardView = (KeyboardView)findViewById(R.id.keyboard);
         this.keyboardView.setDelegate(this);
 
+        this.keyboardOverlay = (TextView)findViewById(R.id.keyboard_overlay);
+
         this.txtDescription = (TextView)findViewById(R.id.description);
 
 	    this.area = new String[GRID_HEIGHT][GRID_WIDTH];
 
 	    CrosswordParser parser = new CrosswordParser();
 	    try {
-			//SAXFileHandler.getFeeds(parser, this.filename);
-			SAXFileHandler.getSave(parser, this.filename);
+			File directory = new File(CrosswordActivity.GRID_DIRECTORY + this.filename);
+			if (directory.exists())
+				SAXFileHandler.getSave(parser, this.filename);
+			else
+				SAXFileHandler.getFeeds(parser, this.filename);
 		} catch (CrosswordException e) {
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
@@ -94,14 +105,14 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 	    	
 	    	Log.d("Crossword", "entry: " + text);
 	    	
-	    	for (int i = 0 ; i < text.length() ;i++) {
+	    	for (int i = 0 ; i < entry.getLength(); i++) {
 	    		if (horizontal) {
 	    			if (y >= 0 && y < GRID_HEIGHT && x+i >= 0 && x+i < GRID_WIDTH)
-	    				this.area[y][x+i] = String.valueOf(text.charAt(i));
+	    				this.area[y][x+i] = text != null ? String.valueOf(text.charAt(i)) : " ";
 	    		}
 	    		else {
 	    			if (y+i >= 0 && y+i < GRID_HEIGHT && x >= 0 && x < GRID_WIDTH)
-	    				this.area[y+i][x] = String.valueOf(text.charAt(i));
+	    				this.area[y+i][x] = text != null ? String.valueOf(text.charAt(i)) : " ";
 	    		}
 	    	}
 	    }
@@ -222,9 +233,33 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 	}
 
 	@Override
-	public void onReceiveKey(String value) {
-		System.out.println("receive key: " + value + ", insert in: " + currentX + "x" + currentY);
-		
+	public void onKeyDown(String value, int location[], int width) {
+		System.out.println("onKeyDown: " + value + ", insert in: " + currentX + "x" + currentY);
+
+		// Deplace l'overlay du clavier
+		if (value.equals(" ") == false) {
+			int offsetX = (this.keyboardOverlay.getWidth() - width) / 2;
+			int offsetY = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, KEYBOARD_OVERLAY_OFFSET, getResources().getDisplayMetrics());
+			FrameLayout.LayoutParams lp = (LayoutParams)this.keyboardOverlay.getLayoutParams();
+			lp.leftMargin = location[0] - offsetX;
+			lp.topMargin = location[1] - offsetY;
+			this.keyboardOverlay.setLayoutParams(lp);
+			this.keyboardOverlay.setText(value);
+			this.keyboardOverlay.clearAnimation();
+			this.keyboardOverlay.setVisibility(View.VISIBLE);
+		}
+	}
+
+	@Override
+	public void onKeyUp(String value) {
+		System.out.println("onKeyUp: " + value + ", insert in: " + currentX + "x" + currentY);
+
+		// Efface l'overlay du clavier
+		if (value.equals(" ") == false) {
+			this.keyboardOverlay.setAnimation(AnimationUtils.loadAnimation(this, R.anim.keyboard_overlay_fade_out));
+			this.keyboardOverlay.setVisibility(View.INVISIBLE);
+		}
+
 		// Si aucun mot selectionne, retour
 		if (this.currentWord == null)
 			return;
@@ -299,14 +334,14 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 		sb.append("</grid>\n");
 		
 		// Make directory if not exists
-		File directory = new File(SAV_DIRECTORY);
+		File directory = new File(GRID_DIRECTORY);
 		if (directory.exists() == false)
 			directory.mkdir();
 		
 		// Write XML
 		FileWriter file;
 		try {
-			file = new FileWriter(SAV_DIRECTORY + this.filename);
+			file = new FileWriter(GRID_DIRECTORY + this.filename);
 			file.write(sb.toString());
 			file.close();
 		} catch (IOException e1) {

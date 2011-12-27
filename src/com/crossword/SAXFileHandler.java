@@ -58,7 +58,7 @@ public class SAXFileHandler {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser sax = factory.newSAXParser();
 			//InputStream input = new URL(String.format("http://crossword.lauper.fr/grids/%s", name)).openStream();;
-			InputStream input = new FileInputStream(CrosswordActivity.SAV_DIRECTORY + name);
+			InputStream input = new FileInputStream(CrosswordActivity.GRID_DIRECTORY + name);
 			sax.parse(input, parser);
 		} catch (FileNotFoundException e) {
 			throw new CrosswordException(ExceptionType.SAV_NOT_FOUND);

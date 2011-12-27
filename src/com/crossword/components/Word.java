@@ -12,7 +12,7 @@ public class Word {
 	public void		setText(String value) { this.text = value; this.length = value.length(); }
 	public String	getText() { return this.text; }
 	
-	public void		setTmp(String value) { this.tmp = value; this.length = value.length(); }
+	public void		setTmp(String value) { this.tmp = value; }
 	public String	getTmp() { return this.tmp; }
 	
 	public void		setDescription(String value) { this.description= value; }
