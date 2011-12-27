@@ -233,13 +233,13 @@
             android:layout_weight="1"
             android:text="M" />
 
-        <Button
+        <ImageButton
             android:id="@+id/buttonDELETE"
             style="@style/KeyboardButton"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="0.78"
-            android:text="DEL" />
+            android:src="@drawable/keyboard_delete" />
     </LinearLayout>
 
 </LinearLayout>

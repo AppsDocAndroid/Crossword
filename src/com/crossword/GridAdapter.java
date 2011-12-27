@@ -1,23 +1,24 @@
 package com.crossword;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.crossword.activity.CrosswordActivity;
 
 import android.content.Context;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
 public class GridAdapter extends BaseAdapter {
 
-	private Context context;
-	private String[][] area;
-	private int height;
+	private HashMap<Integer, TextView>	views = new HashMap<Integer, TextView>();
+	private Context					context;
+	private String[][] 				area;
+	private int 					height;
 
 	public GridAdapter(Context c, String[][] area, int h) {
 		this.context = c;
@@ -43,26 +44,28 @@ public class GridAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-//		LayoutInflater inflater = (LayoutInflater)this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
-//		View child = inflater.inflate(R.layout.area);
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+		TextView v = this.views.get(position);
+		String data = this.area[(int)(position / CrosswordActivity.GRID_WIDTH)][(int)(position % CrosswordActivity.GRID_WIDTH)];
 		
-		TextView v = new TextView(this.context);
-		v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, this.height));
-//		v.setMinimumHeight(42);
-		v.setTextSize(20);
+		// Creation du composant
+		if (v == null)
+		{
+			v = new TextView(this.context);
+			v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, this.height));
+			v.setTextSize(20);
+			v.setGravity(Gravity.CENTER);
+			if (data != null && data.length() > 0)
+				v.setBackgroundResource(R.drawable.area_empty);
+			else
+				v.setBackgroundResource(R.drawable.area_block);
+			this.views.put(position, v);
+		}
 
-		String data = this.area[(int)(position / CrosswordActivity.NUM_COLUMNS)][(int)(position % CrosswordActivity.NUM_COLUMNS)];
+		// Mise a jour du texte
 		if (data != null && data.length() > 0)
-		{
-			v.setBackgroundColor(0xFFFFFFFF);
 	    	v.setText(data.toUpperCase());
-	    	v.setGravity(Gravity.CENTER);
-		}
-		else
-		{
-	    	//v.setBackgroundResource(R.drawable.back_empty);
-		}
 		
 		return v;
 	}

@@ -24,6 +24,12 @@
                 android:src="@drawable/icon_random" />
 
             <ImageView
+                android:id="@+id/button_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_list" />
+
+            <ImageView
                 android:id="@+id/button_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

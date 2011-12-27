@@ -1,4 +1,4 @@
-package com.crossword.components;
+package com.crossword.keyboard;
 
 import com.crossword.R;
 
@@ -102,7 +102,7 @@ public class KeyboardView extends LinearLayout implements OnClickListener {
 		case R.id.buttonX: this.delegate.onReceiveKey("X"); break;
 		case R.id.buttonY: this.delegate.onReceiveKey("Y"); break;
 		case R.id.buttonZ: this.delegate.onReceiveKey("Z"); break;
-		case R.id.buttonDELETE: this.delegate.onReceiveKey("DEL"); break;
+		case R.id.buttonDELETE: this.delegate.onReceiveKey(" "); break;
 		}
 	}
 

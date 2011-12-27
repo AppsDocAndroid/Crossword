@@ -64,6 +64,7 @@ public class CrosswordParser extends DefaultHandler {
 			this.currentFeed = new Word();
 			this.currentFeed.setX(Integer.parseInt(attributes.getValue("x"))-1);
 			this.currentFeed.setY(Integer.parseInt(attributes.getValue("y"))-1);
+			this.currentFeed.setTmp(attributes.getValue("tmp"));
 			this.currentFeed.setDescription(attributes.getValue("description"));
 			this.currentFeed.setHorizontal(this.inHorizontal);
 		}
@@ -80,7 +81,7 @@ public class CrosswordParser extends DefaultHandler {
 		if (localName.equalsIgnoreCase("word")) {
 			this.currentFeed.setText(buffer.toString());
 			entries.add(this.currentFeed);
-			System.out.println("Word, text: " + this.currentFeed.getText() + ", x: " + this.currentFeed.getX() + ", y: " + this.currentFeed.getY());
+			System.out.println("Word, text: " + this.currentFeed.getText() + ", tmp: " + this.currentFeed.getTmp() + ", x: " + this.currentFeed.getX() + ", y: " + this.currentFeed.getY());
 			buffer = null;
 		}
 		if(localName.equalsIgnoreCase("name")) {

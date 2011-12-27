@@ -1,87 +1,79 @@
 package com.crossword.activity;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import org.xml.sax.helpers.DefaultHandler;
 
 import com.crossword.CrosswordException;
 import com.crossword.CrosswordParser;
 import com.crossword.GridAdapter;
 import com.crossword.R;
 import com.crossword.SAXFileHandler;
-import com.crossword.R.id;
-import com.crossword.R.layout;
-import com.crossword.components.KeyboardView;
-import com.crossword.components.KeyboardViewInterface;
+import com.crossword.keyboard.KeyboardView;
+import com.crossword.keyboard.KeyboardViewInterface;
 import com.crossword.components.Word;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CrosswordActivity extends Activity implements OnClickListener, OnTouchListener, KeyboardViewInterface {
+public class CrosswordActivity extends Activity implements OnTouchListener, KeyboardViewInterface {
 
-	public final static int NUM_COLUMNS = 9;
+	public static final String SAV_DIRECTORY = "/data/data/com.crossword/sav/";
+	public static final String GRID_DIRECTORY = "/data/data/com.crossword/grid/";
+	public final static int GRID_WIDTH = 9;
+	public final static int GRID_HEIGHT = 10;
+
+	private GridView 		grid;
+	private KeyboardView 	keyboardView;
+	private GridAdapter 	gridAdapter;
+	private TextView 		txtDescription;
+
+	private String[][]		area;			// Tableau représentant les lettres
+	private ArrayList<Word> entries;		// Liste des mots
+	private ArrayList<View>	selectedArea = new ArrayList<View>(); // Liste des cases selectionnées
+
+	private int 			downPos;		// Position ou le joueur à appuyé
+    private int 			downX;			// Ligne ou le joueur à appuyé
+    private int 			downY;			// Colonne ou le joueur à appuyé
+	private int 			currentPos;		// Position actuelle du curseur
+	private int 			currentX;		// Colonne actuelle du curseur
+	private int 			currentY;		// Ligne actuelle du curseur
+	private Word			currentWord;	// Mot actuellement selectionné
+	private boolean 		horizontal;		// Sens de la selection
+
+	private String 			filename;			// Nom de la grille
 	
-	final static int TEXT_INPUT_REQUEST = 1;
-	
-	final static int GRID_WIDTH = 9;
-	final static int GRID_HEIGHT = 10;
-
-	private LinearLayout mainLayout;
-	private String[][] area;
-	private ArrayList<Word> entries;
-	
-    float downXValue;
-    float downYValue;
-    private int	position = -1;
-
-	private GridView grid;
-
-	private KeyboardView keyboard;
-
-	private boolean horizontal;
-
-	private int x;
-	private int y;
-
-	private GridAdapter gridAdapter;
-	private TextView description;
-	private ArrayList<View>	selectedArea = new ArrayList<View>();
-	
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.crossword);
 	    
-        this.mainLayout = (LinearLayout)findViewById(R.id.main_layout);
-
+	    this.filename = getIntent().getExtras().getString("filename");
+	    
         this.grid = (GridView)findViewById(R.id.grid);
         this.grid.setOnTouchListener(this);
-        this.grid.setNumColumns(NUM_COLUMNS);
+        this.grid.setNumColumns(GRID_WIDTH);
 
-        this.keyboard = (KeyboardView)findViewById(R.id.keyboard);
-        this.keyboard.setDelegate(this);
+        this.keyboardView = (KeyboardView)findViewById(R.id.keyboard);
+        this.keyboardView.setDelegate(this);
 
-        this.description = (TextView)findViewById(R.id.description);
+        this.txtDescription = (TextView)findViewById(R.id.description);
 
 	    this.area = new String[GRID_HEIGHT][GRID_WIDTH];
 
 	    CrosswordParser parser = new CrosswordParser();
 	    try {
-			SAXFileHandler.getFeeds(parser);
+			//SAXFileHandler.getFeeds(parser, this.filename);
+			SAXFileHandler.getSave(parser, this.filename);
 		} catch (CrosswordException e) {
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
@@ -95,7 +87,7 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
 	    }
 	    
 	    for (Word entry: this.entries) {
-	    	String text = entry.getText();
+	    	String text = entry.getTmp();
 	    	boolean horizontal = entry.getHorizontal();
 	    	int x = entry.getX();
 	    	int y = entry.getY();
@@ -104,153 +96,224 @@ public class CrosswordActivity extends Activity implements OnClickListener, OnTo
 	    	
 	    	for (int i = 0 ; i < text.length() ;i++) {
 	    		if (horizontal) {
-	    			if (y < GRID_HEIGHT && x+i < GRID_WIDTH)
+	    			if (y >= 0 && y < GRID_HEIGHT && x+i >= 0 && x+i < GRID_WIDTH)
 	    				this.area[y][x+i] = String.valueOf(text.charAt(i));
 	    		}
 	    		else {
-	    			if (y+i < GRID_HEIGHT && x < GRID_WIDTH)
+	    			if (y+i >= 0 && y+i < GRID_HEIGHT && x >= 0 && x < GRID_WIDTH)
 	    				this.area[y+i][x] = String.valueOf(text.charAt(i));
 	    		}
 	    	}
-	    	
-//	    	String[] result = text.split(".");
-//	        for (int i = 0; i < result.length; i++)
-//	            this.area[y][x+i] = result[i];
 	    }
 	    
         Display display = getWindowManager().getDefaultDisplay();
-        this.gridAdapter = new GridAdapter(this, this.area, display.getWidth() / NUM_COLUMNS);
+        this.gridAdapter = new GridAdapter(this, this.area, display.getWidth() / GRID_WIDTH);
         this.grid.setAdapter(this.gridAdapter);
-	    //fillGrid();
-//	    GridView gridview = (GridView)findViewById(R.id.gridview);
-//	    gridview.setAdapter(new ImageAdapter(this));
-	}
-
-	public void onClick(View v) {
-//		int x = 0;
-//		int y = 0;
-//		
-//		for (int i = 0; i < GRID_HEIGHT; i++)
-//			for (int j = 0; j < GRID_WIDTH; j++)
-//				if (v.getId() == GRID_ID[i][j]) {
-//					y = i;
-//					x = j;
-//				}
-//		
-//		Word word = null;
-//	    for (Word entry: this.entries) {
-//	    	if (x >= entry.getX()-1 && x <= entry.getXMax()-1)
-//		    	if (y >= entry.getY()-1 && y <= entry.getYMax()-1)
-//		    		word = entry;
-//	    }
-//		
 	}
 
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// Get the action that was done on this touch event
+	public boolean onTouch(View v, MotionEvent event)
+	{
+        int position = this.grid.pointToPosition((int)event.getX(), (int)event.getY());
+        int x = position % GRID_WIDTH;
+        int y = position / GRID_WIDTH;
+
+        System.out.println("touch on: " + x + " x " + y);
+        
+        // Si pas de mot sur cette case (= case noire), return
+    	if (getWord(x, y, this.horizontal) == null)
+    		return true;
 		
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
             {
-            	// Redraw in white old child
-            	for (View child: selectedArea)
-            		child.setBackgroundResource(R.drawable.back);
-            		//child.setBackgroundColor(0xFFFFEA00 : 0xFFD5DBFF);
+            	// Stocke les coordonnees d'appuie sur l'ecran
+                this.downX = x;
+                this.downY = y;
+                this.downPos = position;
 
-            	// Store grid position
-            	this.position = this.grid.pointToPosition((int)event.getX(), (int)event.getY());
+                // Remet les anciennes case selectionnees dans leur etat normal
+            	for (View child: selectedArea)
+            		child.setBackgroundResource(R.drawable.area_empty);
+            	selectedArea.clear();
+
+            	// Colore la case en jaune
         		View child = this.grid.getChildAt(position);
         		if (child != null)
-            		child.setBackgroundResource(R.drawable.current);
-        		//child.setBackgroundColor(0xFFFFEA00);
-        		
-        			//child.setBackgroundResource(R.drawable.back_select);
+            		child.setBackgroundResource(R.drawable.area_selected);
 
-        		// store the X value when the user's finger was pressed down
-                this.downXValue = event.getX();
-                this.downYValue = event.getY();
-                break;
+        		break;
             }
 
             case MotionEvent.ACTION_UP:
             {
-        		//if (child != null)
-        			//child.setBackgroundColor(0xFFFFFFFF);
+            	// Si clique sur la case, inversion horizontale <> verticale
+                // Si clique sur une autre case (= mouvement) calcul en fonction de la gesture
+            	if (this.downPos == position && this.currentPos == position)
+            	{
+            		this.horizontal = !this.horizontal;
+            	}
+            	else if (this.downPos != position) 
+            	{
+            		this.horizontal = (Math.abs(this.downX - x) > Math.abs(this.downY - y));
+            	}
 
-        		// Get the X value when the user released his/her finger
-                float currentX = event.getX();            
-                float currentY = event.getY();
-                
-                this.horizontal = Math.abs(this.downXValue - currentX) > Math.abs(this.downYValue - currentY);
-                this.x = this.position % NUM_COLUMNS;
-                this.y = this.position / NUM_COLUMNS;
-                
-                Word word = null;
-        	    for (Word entry: this.entries) {
-        	    	if (entry.getHorizontal() == horizontal)
-        	    		if (x >= entry.getX() && x <= entry.getXMax())
-        	    			if (y >= entry.getY() && y <= entry.getYMax())
-        	    				word = entry;
-        	    }
+            	// Test si un mot se trouve sur cette case
+                this.currentWord = getWord(this.downX, this.downY, this.horizontal);
+        	    if (this.currentWord == null)
+        	    	break;
         	    
-        	    this.description.setText(word.getDescription());
+        	    // Force la direction a etre dans le meme sens que le mot
+        	    this.horizontal = this.currentWord.getHorizontal();
+                
+            	// Si clique sur la case, place le curseur sur le mot
+                // Sinon place le curseur au debut du mot
+            	if (this.downPos == position)
+            	{
+            	    this.currentX = this.downX;
+                    this.currentY = this.downY;
+                	this.currentPos = position;
+            	}
+            	else
+            	{
+            	    this.currentX = this.currentWord.getX();
+                    this.currentY = this.currentWord.getY();
+                	this.currentPos = this.currentY * GRID_WIDTH + this.currentX;
+            	}
+
+            	this.txtDescription.setText(this.currentWord.getDescription());
 
         	    // Set background color
-        	    boolean horizontal = word.getHorizontal();
-        	    for (int l = 0; l < word.getLength(); l++) {
-        	    	int index = word.getY() * NUM_COLUMNS + word.getX() + (l * (horizontal ? 1 : NUM_COLUMNS));
+        	    boolean horizontal = this.currentWord.getHorizontal();
+        	    for (int l = 0; l < this.currentWord.getLength(); l++) {
+        	    	int index = this.currentWord.getY() * GRID_WIDTH + this.currentWord.getX() + (l * (horizontal ? 1 : GRID_WIDTH));
         	    	View child = this.grid.getChildAt(index);
-            		child.setBackgroundResource(index == this.position ? R.drawable.current : R.drawable.selected);
-            		//child.setBackgroundColor(index == this.position ? 0xFFFFEA00 : 0xFFD5DBFF);
+            		child.setBackgroundResource(index == this.currentPos ? R.drawable.area_current : R.drawable.area_selected);
         	    	selectedArea.add(child);
-        		}
+        	    }
+        	    this.gridAdapter.notifyDataSetChanged();
 
         	    break;
             }
         }
-
         // if you return false, these actions will not be recorded
         return true;
 	}
 	
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	
-        if (requestCode == TEXT_INPUT_REQUEST) {
-            if (resultCode == RESULT_OK) {
-            	String text = data.getExtras().getString("text_input");
-            	boolean horizontal = data.getExtras().getBoolean("horizontal");
-            	int y = data.getExtras().getInt("y")-1;
-            	int x = data.getExtras().getInt("x")-1;
-            	Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    	    	for (int i = 0 ; i < text.length(); i++) {
-    	    		if (horizontal && y < GRID_HEIGHT && x+i < GRID_WIDTH)
-    	    			this.area[y][x+i] = String.valueOf(text.charAt(i));
-    	    		else if (y+i < GRID_HEIGHT && x < GRID_WIDTH)
-    	    			this.area[y+i][x] = String.valueOf(text.charAt(i));
-    	    	}
-
-            }
-        }
-    }
+    private Word getWord(int x, int y, boolean horizontal)
+    {
+        Word horizontalWord = null;
+        Word verticalWord = null;
+	    for (Word entry: this.entries) {
+	    	if (x >= entry.getX() && x <= entry.getXMax())
+	    		if (y >= entry.getY() && y <= entry.getYMax()) {
+        	    	if (entry.getHorizontal())
+        	    		horizontalWord = entry;
+        	    	else
+        	    		verticalWord = entry;
+	    		}
+	    }
+	    
+	    if (horizontal)
+	    	return (horizontalWord != null) ? horizontalWord : verticalWord;
+	    else
+	    	return (verticalWord != null) ? verticalWord : horizontalWord;
+	}
 
 	@Override
 	public void onReceiveKey(String value) {
-		System.out.println("receive key: " + value + ", insert in: " + x + "x" + y);
+		System.out.println("receive key: " + value + ", insert in: " + currentX + "x" + currentY);
 		
-		if (value.equals("DEL")) {
-			this.area[y][x] = " ";
-			if (this.horizontal) this.x--;
-			else this.y--;
+		// Si aucun mot selectionne, retour
+		if (this.currentWord == null)
+			return;
+
+		// Case actuelle
+		int x = this.currentX;
+		int y = this.currentY;
+
+		// Si la case est pas null (= noire), retour
+		if (this.area[y][x] == null)
+			return;
+		
+		// Ecrit la lettre sur le "curseur"
+		if (this.area[y][x] != null) {
+			this.area[y][x] = value;
+			this.gridAdapter.notifyDataSetChanged();
+		}
+		
+		// Deplace sur le "curseur" sur la case precendante (effacer), ou suivante (lettres)
+		if (value.equals(" ")) {
+			x = (this.horizontal ? x - 1 : x);
+			y = (this.horizontal ? y: y - 1);
 		}
 		else
 		{
-			this.area[y][x] = value;
-			if (this.horizontal) this.x++;
-			else this.y++;
+			x = (this.horizontal ? x + 1 : x);
+			y = (this.horizontal ? y: y + 1);
 		}
-		this.gridAdapter.notifyDataSetChanged();
+		
+		// Si la case suivante est disponible, met la case en jaune, remet l'ancienne en bleu, et set la nouvelle position
+		if (x >= 0 && x < GRID_WIDTH
+				&& y >= 0 && y < GRID_HEIGHT
+				&& this.area[y][x] != null) {
+			this.grid.getChildAt(y * GRID_WIDTH + x).setBackgroundResource(R.drawable.area_current);
+			this.grid.getChildAt(this.currentY * GRID_WIDTH + this.currentX).setBackgroundResource(R.drawable.area_selected);
+			this.currentX = x;
+			this.currentY = y;
+		}
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		// Sauvegarde vers le XML
+		StringBuffer sb = new StringBuffer();
+		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
+		sb.append("<grid>\n");
+		sb.append("<horizontal>\n");
+	    for (Word entry: this.entries) {
+	    	if (entry.getHorizontal()) {
+	    	int x = entry.getX();
+	    	int y = entry.getY();
+	    	StringBuffer word = new StringBuffer();
+	    	for (int i = 0; i < entry.getLength(); i++)
+	    		word.append(this.area[y][x+i]);
+    	    sb.append("<word x=\""+(x+1)+"\" y=\""+(y+1)+"\" description=\""+entry.getDescription()+"\" tmp=\""+word+"\">"+entry.getText()+"</word>\n");
+	    	}
+	    }
+		sb.append("</horizontal>\n");
+		sb.append("<vertical>\n");
+	    for (Word entry: this.entries) {
+	    	if (entry.getHorizontal() == false) {
+	    	int x = entry.getX();
+	    	int y = entry.getY();
+	    	StringBuffer word = new StringBuffer();
+	    	for (int i = 0; i < entry.getLength(); i++)
+	    		word.append(this.area[y+i][x]);
+    	    sb.append("<word x=\""+(x+1)+"\" y=\""+(y+1)+"\" description=\""+entry.getDescription()+"\" tmp=\""+word+"\">"+entry.getText()+"</word>\n");
+	    	}
+	    }
+		sb.append("</vertical>\n");
+		sb.append("</grid>\n");
+		
+		// Make directory if not exists
+		File directory = new File(SAV_DIRECTORY);
+		if (directory.exists() == false)
+			directory.mkdir();
+		
+		// Write XML
+		FileWriter file;
+		try {
+			file = new FileWriter(SAV_DIRECTORY + this.filename);
+			file.write(sb.toString());
+			file.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		System.out.println(sb);
 	}
 
 }

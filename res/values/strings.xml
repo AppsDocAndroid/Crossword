@@ -3,8 +3,9 @@
 
     <string name="hello">Hello World, MainActivity!</string>
     <string name="app_name">Crossword</string>
-    <string name="exception_file_not_found">This file can not be found</string>
-    <string name="exception_grid_not_found">This grid can not be found</string>
+    <string name="exception_file_not_found">Le fichier n\'a pas put être trouvé</string>
+    <string name="exception_grid_not_found">La grille n\'a pas put être trouvée</string>
+    <string name="exception_sav_not_found">Aucune sauvegarde pour cette grille</string>
     <string name="exception_unknow">Unknow error occurs</string>
 
 </resources>
