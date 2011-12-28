@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/debug_flagtory_game_999"
+          android:title="flagtory game 999" />
+
+    <item android:id="@+id/debug_flagtory_game_998"
+          android:title="flagtory game 998" />
+    
+    <item android:id="@+id/debug_flagtory_game_997"
+          android:title="flagtory game 997" />
+    
+    <item android:id="@+id/debug_game"
+          android:title="portrait game" />
+
+    <item android:id="@+id/debug_game_landscape"
+          android:title="landscape game" />
+
+	<item android:id="@+id/menu_main_preferences"
+	      android:title="Settings" />
+
+</menu>

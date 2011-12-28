@@ -5,20 +5,33 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.xml.sax.helpers.DefaultHandler;
+
+import com.crossword.Crossword;
 import com.crossword.CrosswordException;
 import com.crossword.CrosswordParser;
 import com.crossword.GridAdapter;
+import com.crossword.GridParser;
 import com.crossword.R;
 import com.crossword.SAXFileHandler;
 import com.crossword.keyboard.KeyboardView;
 import com.crossword.keyboard.KeyboardViewInterface;
+import com.crossword.components.Grid;
 import com.crossword.components.Word;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -26,27 +39,31 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class CrosswordActivity extends Activity implements OnTouchListener, KeyboardViewInterface {
 
-	public static final String	GRID_DIRECTORY = "/data/data/com.crossword/grid/";
+	public enum GRID_MODE {NORMAL, CHECK, CORRECTION};
+	public static GRID_MODE currentMode = GRID_MODE.NORMAL;
+	
 	public static final int 	GRID_WIDTH = 9;
 	public static final int 	GRID_HEIGHT = 10;
 	public static final float 	KEYBOARD_OVERLAY_OFFSET = 90;
 
-	private GridView 		grid;
+	private GridView 		gridView;
 	private KeyboardView 	keyboardView;
 	private GridAdapter 	gridAdapter;
 	private TextView 		txtDescription;
 	private TextView 		keyboardOverlay;
 
-	private String[][]		area;			// Tableau représentant les lettres
+	private Grid			grid;
+	private String[][]		area;			// Tableau représentant les lettres du joueur
+	private String[][] 		correctionArea; // Tableau représentant les lettres correctes
 	private ArrayList<Word> entries;		// Liste des mots
 	private ArrayList<View>	selectedArea = new ArrayList<View>(); // Liste des cases selectionnées
 
+	private boolean			downIsPlayable;	// false si le joueur à appuyé sur une case noire 
 	private int 			downPos;		// Position ou le joueur à appuyé
     private int 			downX;			// Ligne ou le joueur à appuyé
     private int 			downY;			// Colonne ou le joueur à appuyé
@@ -56,18 +73,92 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 	private Word			currentWord;	// Mot actuellement selectionné
 	private boolean 		horizontal;		// Sens de la selection
 
-	private String 			filename;			// Nom de la grille
-	
+	private String 			filename;		// Nom de la grille
+
+	private boolean 		solidSelection;	// PREFERENCES: Selection persistante
+	private boolean			gridIsLower;	// PREFERENCES: Grille en minuscule
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.crossword, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case R.id.check:
+        	if (CrosswordActivity.currentMode == GRID_MODE.CHECK)
+        		CrosswordActivity.currentMode = GRID_MODE.NORMAL;
+        	else
+        		CrosswordActivity.currentMode = GRID_MODE.CHECK;
+        	this.gridAdapter.notifyDataSetChanged();
+        	return true;
+        case R.id.correction:
+        	if (CrosswordActivity.currentMode == GRID_MODE.CORRECTION)
+        	{
+        		CrosswordActivity.currentMode = GRID_MODE.NORMAL;
+        		this.gridAdapter.notifyDataSetChanged();
+        	}
+        	else
+        	{
+	        	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        	builder.setMessage(R.string.dialog_display_correction)
+	        	       .setCancelable(false)
+	        	       .setPositiveButton(R.string.display, new DialogInterface.OnClickListener() {
+	        	           public void onClick(DialogInterface dialog, int id) {
+	        	        	   CrosswordActivity.currentMode = GRID_MODE.CORRECTION;
+	        	        	   CrosswordActivity.this.gridAdapter.notifyDataSetChanged();
+	        	           }
+	        	       })
+	        	       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	        	           public void onClick(DialogInterface dialog, int id) {
+	        	                dialog.cancel();
+	        	           }
+	        	       });
+	        	builder.create().show();
+        	}
+        	return true;
+        case R.id.menu_main_preferences:
+        	startActivityForResult(new Intent(this, PeferencesActivity.class), Crossword.REQUEST_PREFERENCES);
+        	return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	super.onActivityResult(requestCode, resultCode, data);
+    	switch (requestCode) {
+    	case Crossword.REQUEST_PREFERENCES:
+    		Toast.makeText(this, "PREFERENCES_UPDATED", Toast.LENGTH_SHORT).show();
+    		readPreferences();
+    		this.gridAdapter.setLower(this.gridIsLower);
+    		this.gridAdapter.notifyDataSetChanged();
+        	break;
+    	}
+	}
+
+	private void readPreferences() {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		this.solidSelection = preferences.getBoolean("solid_selection", false);
+		this.gridIsLower = preferences.getBoolean("grid_is_lower", false);
+	}
+
 	public void onCreate(Bundle savedInstanceState)
 	{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.crossword);
 	    
+		readPreferences();
+	    
 	    this.filename = getIntent().getExtras().getString("filename");
 	    
-        this.grid = (GridView)findViewById(R.id.grid);
-        this.grid.setOnTouchListener(this);
-        this.grid.setNumColumns(GRID_WIDTH);
+        this.gridView = (GridView)findViewById(R.id.grid);
+        this.gridView.setOnTouchListener(this);
+        this.gridView.setNumColumns(GRID_WIDTH);
 
         this.keyboardView = (KeyboardView)findViewById(R.id.keyboard);
         this.keyboardView.setDelegate(this);
@@ -77,88 +168,110 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
         this.txtDescription = (TextView)findViewById(R.id.description);
 
 	    this.area = new String[GRID_HEIGHT][GRID_WIDTH];
+	    this.correctionArea = new String[GRID_HEIGHT][GRID_WIDTH];
 
-	    CrosswordParser parser = new CrosswordParser();
+	    CrosswordParser crosswordParser = new CrosswordParser();
 	    try {
-			File directory = new File(CrosswordActivity.GRID_DIRECTORY + this.filename);
-			if (directory.exists())
-				SAXFileHandler.getSave(parser, this.filename);
+			File file = new File(Crossword.GRID_DIRECTORY + this.filename);
+			if (file.exists())
+			{
+				SAXFileHandler.read((DefaultHandler)crosswordParser, Crossword.GRID_DIRECTORY + this.filename);
+
+				GridParser gridParser = new GridParser();
+				SAXFileHandler.read((DefaultHandler)gridParser, Crossword.GRID_DIRECTORY + this.filename);
+				this.grid = gridParser.getData();
+			}
 			else
-				SAXFileHandler.getFeeds(parser, this.filename);
+			{
+		    	finish();
+		    	return;
+			}
 		} catch (CrosswordException e) {
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 
-	    this.entries = parser.getData();
-	    
+	    this.entries = crosswordParser.getData();
 	    if (this.entries == null) {
 	    	finish();
 	    	return;
 	    }
 	    
 	    for (Word entry: this.entries) {
-	    	String text = entry.getTmp();
+	    	String tmp = entry.getTmp();
+	    	String text = entry.getText();
 	    	boolean horizontal = entry.getHorizontal();
 	    	int x = entry.getX();
 	    	int y = entry.getY();
 	    	
-	    	Log.d("Crossword", "entry: " + text);
-	    	
 	    	for (int i = 0 ; i < entry.getLength(); i++) {
 	    		if (horizontal) {
 	    			if (y >= 0 && y < GRID_HEIGHT && x+i >= 0 && x+i < GRID_WIDTH)
-	    				this.area[y][x+i] = text != null ? String.valueOf(text.charAt(i)) : " ";
+	    				this.area[y][x+i] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
+	    				this.correctionArea[y][x+i] = String.valueOf(text.charAt(i));
 	    		}
 	    		else {
 	    			if (y+i >= 0 && y+i < GRID_HEIGHT && x >= 0 && x < GRID_WIDTH)
-	    				this.area[y+i][x] = text != null ? String.valueOf(text.charAt(i)) : " ";
+	    				this.area[y+i][x] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
+	    				this.correctionArea[y+i][x] = String.valueOf(text.charAt(i));
 	    		}
 	    	}
 	    }
 	    
         Display display = getWindowManager().getDefaultDisplay();
-        this.gridAdapter = new GridAdapter(this, this.area, display.getWidth() / GRID_WIDTH);
-        this.grid.setAdapter(this.gridAdapter);
+        this.gridAdapter = new GridAdapter(this, this.area, this.correctionArea, display.getWidth() / GRID_WIDTH);
+        this.gridView.setAdapter(this.gridAdapter);
 	}
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event)
 	{
-        int position = this.grid.pointToPosition((int)event.getX(), (int)event.getY());
-        int x = position % GRID_WIDTH;
-        int y = position / GRID_WIDTH;
-
-        System.out.println("touch on: " + x + " x " + y);
-        
-        // Si pas de mot sur cette case (= case noire), return
-    	if (getWord(x, y, this.horizontal) == null)
-    		return true;
-		
         switch (event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
             {
+            	int position = this.gridView.pointToPosition((int)event.getX(), (int)event.getY());
+            	View child = this.gridView.getChildAt(position);
+
+            	// Si pas de mot sur cette case (= case noire), aucun traitement
+            	if (child == null || child.getTag().equals(GridAdapter.AREA_BLOCK)) {
+            		if (this.solidSelection == false) {
+                        clearSelection();
+                    	this.gridAdapter.notifyDataSetChanged();
+            		}
+            			
+            		this.downIsPlayable = false;
+            		return true;
+            	}
+        		this.downIsPlayable = true;
+
             	// Stocke les coordonnees d'appuie sur l'ecran
-                this.downX = x;
-                this.downY = y;
-                this.downPos = position;
+            	this.downPos = position;
+                this.downX = this.downPos % GRID_WIDTH;
+                this.downY = this.downPos / GRID_WIDTH;
+                System.out.println("ACTION_DOWN, x:" + this.downX + ", y:" + this.downY + ", position: " + this.downPos);
 
-                // Remet les anciennes case selectionnees dans leur etat normal
-            	for (View child: selectedArea)
-            		child.setBackgroundResource(R.drawable.area_empty);
-            	selectedArea.clear();
+                clearSelection();
+                
+            	// Colore la case en bleu
+            	child.setBackgroundResource(R.drawable.area_selected);
+            	selectedArea.add(child);
 
-            	// Colore la case en jaune
-        		View child = this.grid.getChildAt(position);
-        		if (child != null)
-            		child.setBackgroundResource(R.drawable.area_selected);
-
+            	this.gridAdapter.notifyDataSetChanged();
         		break;
             }
 
             case MotionEvent.ACTION_UP:
             {
+            	// Si le joueur à appuyé sur une case noire, aucun traitement 
+            	if (this.downIsPlayable == false)
+            		return true;
+            	
+                int position = this.gridView.pointToPosition((int)event.getX(), (int)event.getY());
+                int x = position % GRID_WIDTH;
+                int y = position / GRID_WIDTH;
+                System.out.println("ACTION_DOWN, x:" + x + ", y:" + y + ", position: " + position);
+
             	// Si clique sur la case, inversion horizontale <> verticale
                 // Si clique sur une autre case (= mouvement) calcul en fonction de la gesture
             	if (this.downPos == position && this.currentPos == position)
@@ -199,12 +312,14 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
         	    boolean horizontal = this.currentWord.getHorizontal();
         	    for (int l = 0; l < this.currentWord.getLength(); l++) {
         	    	int index = this.currentWord.getY() * GRID_WIDTH + this.currentWord.getX() + (l * (horizontal ? 1 : GRID_WIDTH));
-        	    	View child = this.grid.getChildAt(index);
-            		child.setBackgroundResource(index == this.currentPos ? R.drawable.area_current : R.drawable.area_selected);
-        	    	selectedArea.add(child);
+        	    	View currentChild = this.gridView.getChildAt(index);
+        	    	if (currentChild != null) {
+        	    		currentChild.setBackgroundResource(index == this.currentPos ? R.drawable.area_current : R.drawable.area_selected);
+        	    		selectedArea.add(currentChild);
+        	    	}
         	    }
-        	    this.gridAdapter.notifyDataSetChanged();
 
+        	    this.gridAdapter.notifyDataSetChanged();
         	    break;
             }
         }
@@ -212,7 +327,14 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
         return true;
 	}
 	
-    private Word getWord(int x, int y, boolean horizontal)
+	// Remet les anciennes case selectionnees dans leur etat normal
+    private void clearSelection() {
+    	for (View selected: selectedArea)
+    		selected.setBackgroundResource(R.drawable.area_empty);
+    	selectedArea.clear();
+	}
+
+	private Word getWord(int x, int y, boolean horizontal)
     {
         Word horizontalWord = null;
         Word verticalWord = null;
@@ -293,8 +415,8 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 		if (x >= 0 && x < GRID_WIDTH
 				&& y >= 0 && y < GRID_HEIGHT
 				&& this.area[y][x] != null) {
-			this.grid.getChildAt(y * GRID_WIDTH + x).setBackgroundResource(R.drawable.area_current);
-			this.grid.getChildAt(this.currentY * GRID_WIDTH + this.currentX).setBackgroundResource(R.drawable.area_selected);
+			this.gridView.getChildAt(y * GRID_WIDTH + x).setBackgroundResource(R.drawable.area_current);
+			this.gridView.getChildAt(this.currentY * GRID_WIDTH + this.currentX).setBackgroundResource(R.drawable.area_selected);
 			this.currentX = x;
 			this.currentY = y;
 		}
@@ -307,6 +429,12 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 		StringBuffer sb = new StringBuffer();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		sb.append("<grid>\n");
+		sb.append("<name>"+this.grid.getName()+"</name>\n");
+		sb.append("<description>"+this.grid.getDescription()+"</description>\n");
+		sb.append("<date>"+this.grid.getDate()+"</date>\n");
+		sb.append("<author>"+this.grid.getAuthor()+"</author>\n");
+		sb.append("<level>"+this.grid.getLevel()+"</level>\n");
+		sb.append("<percent>"+this.grid.getPercent()+"</percent>\n");
 		sb.append("<horizontal>\n");
 	    for (Word entry: this.entries) {
 	    	if (entry.getHorizontal()) {
@@ -334,14 +462,14 @@ public class CrosswordActivity extends Activity implements OnTouchListener, Keyb
 		sb.append("</grid>\n");
 		
 		// Make directory if not exists
-		File directory = new File(GRID_DIRECTORY);
+		File directory = new File(Crossword.GRID_DIRECTORY);
 		if (directory.exists() == false)
 			directory.mkdir();
 		
 		// Write XML
 		FileWriter file;
 		try {
-			file = new FileWriter(GRID_DIRECTORY + this.filename);
+			file = new FileWriter(Crossword.GRID_DIRECTORY + this.filename);
 			file.write(sb.toString());
 			file.close();
 		} catch (IOException e1) {

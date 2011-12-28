@@ -1,9 +1,6 @@
 package com.crossword.activity;
 
 import com.crossword.R;
-import com.crossword.R.id;
-import com.crossword.R.layout;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;

@@ -14,12 +14,12 @@ public class CrosswordException extends Exception {
 	public String getMessage() {
 		switch (this.type) {
 		case FILE_NOT_FOUND:
-			return MyApplication.getAppContext().getString(R.string.exception_file_not_found);
+			return Crossword.getAppContext().getString(R.string.exception_file_not_found);
 		case GRID_NOT_FOUND:
-			return MyApplication.getAppContext().getString(R.string.exception_grid_not_found);
+			return Crossword.getAppContext().getString(R.string.exception_grid_not_found);
 		case SAV_NOT_FOUND:
-			return MyApplication.getAppContext().getString(R.string.exception_sav_not_found);
+			return Crossword.getAppContext().getString(R.string.exception_sav_not_found);
 		}
-		return MyApplication.getAppContext().getString(R.string.exception_unknow);
+		return Crossword.getAppContext().getString(R.string.exception_unknow);
 	}
 }

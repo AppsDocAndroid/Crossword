@@ -7,5 +7,10 @@
     <string name="exception_grid_not_found">La grille n\'a pas put être trouvée</string>
     <string name="exception_sav_not_found">Aucune sauvegarde pour cette grille</string>
     <string name="exception_unknow">Unknow error occurs</string>
+    <string name="dialog_display_correction">Êtes vous sure d\'afficher la correction ?</string>
+    <string name="yes">oui</string>
+    <string name="no">non</string>
+    <string name="display">afficher</string>
+    <string name="cancel">annuler</string>
 
 </resources>

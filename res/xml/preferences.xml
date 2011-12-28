@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Utilisateur" >
+        <Preference
+            android:key="clear_cache"
+            android:title="Clear cache" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Grid" >
+        <CheckBoxPreference
+            android:key="grid_is_lower"
+            android:title="Grille en minuscule" />
+        <CheckBoxPreference
+            android:key="solid_selection"
+            android:title="Selection persistante" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
