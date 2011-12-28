@@ -26,7 +26,6 @@ import com.crossword.data.Word;
 public class GridFullParser extends DefaultHandler {
 	
 	private ArrayList<Word>	entries;
-	private boolean 		inItem;
 	private Word 			currentFeed;
 	private StringBuffer 	buffer;
 
@@ -53,7 +52,7 @@ public class GridFullParser extends DefaultHandler {
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
-		entries = new ArrayList();
+		entries = new ArrayList<Word>();
 	}
 	/*
 	 * Fonction étant déclenchée lorsque le parser trouve un tag XML

@@ -12,5 +12,9 @@
     <string name="no">non</string>
     <string name="display">afficher</string>
     <string name="cancel">annuler</string>
+    <string name="random">Au hasard</string>
+    <string name="list">Liste</string>
+    <string name="category">Categorie</string>
+    <string name="search">Recherche</string>
 
 </resources>

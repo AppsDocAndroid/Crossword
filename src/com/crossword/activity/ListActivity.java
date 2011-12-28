@@ -18,8 +18,6 @@
 package com.crossword.activity;
 
 import java.io.File;
-import java.util.ArrayList;
-
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.crossword.Crossword;
@@ -29,7 +27,6 @@ import com.crossword.R;
 import com.crossword.SAXFileHandler;
 import com.crossword.adapter.ListGridAdapter;
 import com.crossword.data.Grid;
-import com.crossword.parser.GridFullParser;
 import com.crossword.parser.GridParser;
 
 import android.app.Activity;
@@ -38,10 +35,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ListActivity extends Activity implements OnItemClickListener {

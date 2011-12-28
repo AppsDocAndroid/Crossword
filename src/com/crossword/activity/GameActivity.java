@@ -43,7 +43,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Menu;
@@ -167,7 +166,7 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 	public void onCreate(Bundle savedInstanceState)
 	{
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.crossword);
+	    setContentView(R.layout.game);
 	    
 		readPreferences();
 	    
