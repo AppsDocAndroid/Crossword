@@ -12,33 +12,35 @@
         android:layout_gravity="center"
         android:layout_weight="0.5" >
 
-        <ImageView
-            android:id="@+id/button_random"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/random"
-            android:src="@drawable/icon_random" />
+        <FrameLayout
+            android:id="@+id/frameLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
 
-        <ImageView
-            android:id="@+id/button_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/list"
-            android:src="@drawable/icon_list" />
+            <Button
+                android:id="@+id/button_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_random"
+                android:text="@string/button_random" />
+        </FrameLayout>
 
-        <ImageView
-            android:id="@+id/button_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/category"
-            android:src="@drawable/icon_category" />
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
 
-        <ImageView
-            android:id="@+id/button_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/search"
-            android:src="@drawable/icon_search" />
+            <Button
+                android:id="@+id/button_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_list"
+                android:text="@string/button_list" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -46,6 +48,36 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="0.5" >
+
+        <FrameLayout
+            android:id="@+id/frameLayout3"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/button_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_category"
+                android:text="@string/button_category" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameLayout4"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/icon_search"
+                android:text="@string/button_search" />
+        </FrameLayout>
     </LinearLayout>
 
 </LinearLayout>

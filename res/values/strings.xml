@@ -16,5 +16,11 @@
     <string name="list">Liste</string>
     <string name="category">Categorie</string>
     <string name="search">Recherche</string>
+    <string name="author_format">Auteur: %s</string>
+    <string name="level_format">Difficulté: %d</string>
+    <string name="button_random">Une partie\nau hasard</string>
+    <string name="button_list">Liste des\ngrilles</string>
+    <string name="button_category">Grilles par\ncatégorie</string>
+    <string name="button_search">Rechercher\nun mot</string>
 
 </resources>

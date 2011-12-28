@@ -17,13 +17,19 @@
 
 package com.crossword.adapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.crossword.Crossword;
 import com.crossword.R;
-import com.crossword.activity.GameActivity;
+import com.crossword.activity.GameGridActivity;
+import com.crossword.data.Word;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,23 +43,51 @@ public class GameGridAdapter extends BaseAdapter {
 	public static final int 			AREA_WRITABLE = 0;
 	private HashMap<Integer, TextView>	views = new HashMap<Integer, TextView>();
 	private Context						context;
-	private String[][] 					area;
-	private String[][] 					correctionArea;
+	private String[][]					area;			// Tableau représentant les lettres du joueur
+	private String[][] 					correctionArea; // Tableau représentant les lettres correctes
 	private int 						height;
 	private boolean						isLower;
 
-	public GameGridAdapter(Context c, String[][] area, String[][] correctionArea, int h) {
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
+	public GameGridAdapter(Activity act, ArrayList<Word> entries) {
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act);
 		this.isLower = preferences.getBoolean("grid_is_lower", false);
-		this.context = c;
-		this.area = area;
-		this.height = h;
-		this.correctionArea = correctionArea;
+		this.context = (Context)act;
+		
+		// Calcul area height
+        Display display = act.getWindowManager().getDefaultDisplay();
+        this.height = display.getWidth() / Crossword.GRID_WIDTH;
+
+        // Fill area and areaCorrection
+        this.area = new String[Crossword.GRID_HEIGHT][Crossword.GRID_WIDTH];
+        this.correctionArea = new String[Crossword.GRID_HEIGHT][Crossword.GRID_WIDTH];
+	    for (Word entry: entries) {
+	    	String tmp = entry.getTmp();
+	    	String text = entry.getText();
+	    	boolean horizontal = entry.getHorizontal();
+	    	int x = entry.getX();
+	    	int y = entry.getY();
+	    	
+	    	for (int i = 0 ; i < entry.getLength(); i++) {
+	    		if (horizontal) {
+	    			if (y >= 0 && y < Crossword.GRID_HEIGHT && x+i >= 0 && x+i < Crossword.GRID_WIDTH)
+	    				this.area[y][x+i] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
+	    				this.correctionArea[y][x+i] = String.valueOf(text.charAt(i));
+	    		}
+	    		else {
+	    			if (y+i >= 0 && y+i < Crossword.GRID_HEIGHT && x >= 0 && x < Crossword.GRID_WIDTH)
+	    				this.area[y+i][x] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
+	    				this.correctionArea[y+i][x] = String.valueOf(text.charAt(i));
+	    		}
+	    	}
+	    }
+	    
+
+	    
 	}
 	
 	@Override
 	public int getCount() {
-		return 81;
+		return Crossword.GRID_HEIGHT * Crossword.GRID_WIDTH;
 	}
 
 	@Override
@@ -77,8 +111,8 @@ public class GameGridAdapter extends BaseAdapter {
 //		this.lastPosition = position;
 		
 		TextView v = this.views.get(position);
-		int y = (int)(position / GameActivity.GRID_WIDTH);
-		int x = (int)(position % GameActivity.GRID_WIDTH);
+		int y = (int)(position / Crossword.GRID_WIDTH);
+		int x = (int)(position % Crossword.GRID_WIDTH);
 		String data = this.area[y][x];
 		String correction = this.correctionArea[y][x];
 		
@@ -90,7 +124,7 @@ public class GameGridAdapter extends BaseAdapter {
 			v.setTextSize(20);
 			v.setGravity(Gravity.CENTER);
 
-			if (data != null && data.length() > 0) {
+			if (data != null) {
 				v.setBackgroundResource(R.drawable.area_empty);
 				v.setTag(AREA_WRITABLE);
 			} else {
@@ -102,7 +136,7 @@ public class GameGridAdapter extends BaseAdapter {
 		}
 
 		// Si la grille est en mode check, colore les fautes en rouge
-    	if (GameActivity.currentMode == GameActivity.GRID_MODE.CHECK)
+    	if (GameGridActivity.currentMode == GameGridActivity.GRID_MODE.CHECK)
     	{
     		if (data != null) {
     			v.setTextColor(context.getResources().getColor(data.equalsIgnoreCase(correction) ? R.color.normal : R.color.wrong));
@@ -110,7 +144,7 @@ public class GameGridAdapter extends BaseAdapter {
     		}
     	}
 		// Si la grille est en mode correction, ajoute les bonnes lettres en verte
-    	else if (GameActivity.currentMode == GameActivity.GRID_MODE.CORRECTION)
+    	else if (GameGridActivity.currentMode == GameGridActivity.GRID_MODE.CORRECTION)
     	{
     		if (data != null && data.equalsIgnoreCase(correction)) {
     			v.setTextColor(context.getResources().getColor(R.color.normal));
@@ -134,6 +168,45 @@ public class GameGridAdapter extends BaseAdapter {
 
 	public void setLower(boolean isLower) {
 		this.isLower = isLower;
+	}
+
+	public int getPercent() {
+		int filled = 0;
+		int empty = 0;
+		
+		for (int y = 0; y < Crossword.GRID_HEIGHT; y++)
+			for (int x = 0; x < Crossword.GRID_WIDTH; x++)
+				if (this.area[y][x] != null) {
+					if (this.area[y][x].equals(" "))
+						empty++;
+					else
+						filled++;
+				}
+		return filled * 100 / (empty + filled);
+	}
+
+	public boolean isBlock(int x, int y) {
+		return (this.area[y][x] == null);
+	}
+
+	public void setValue(int x, int y, String value) {
+		if (this.area[y][x] != null)
+			this.area[y][x] = value;
+	}
+
+	public String getWord(int x, int y, int length, boolean isHorizontal) {
+    	StringBuffer word = new StringBuffer();
+    	for (int i = 0; i < length; i++) {
+    		if (isHorizontal) {
+    			if (y < Crossword.GRID_HEIGHT && x+i < Crossword.GRID_WIDTH)
+    				word.append(this.area[y][x+i] != null ? this.area[y][x+i] : " ");
+    		}
+    		else {
+    			if (y+i < Crossword.GRID_HEIGHT && x < Crossword.GRID_WIDTH)
+    				word.append(this.area[y+i][x] != null ? this.area[y+i][x] : " ");
+    		}
+    	}
+    	return word.toString();
 	}
 
 }

@@ -38,52 +38,62 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ListActivity extends Activity implements OnItemClickListener {
+public class ListGridActivity extends Activity implements OnItemClickListener {
 
 	private ListGridAdapter	gridAdapter;
 	private ListView		gridListView;
 	
-	public void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.gridlist);
+	    this.initComponents();
+	}
 
+	private void initComponents() {
 	    // Telecharge toutes les grilles
-		String[] listName = {"slam_28_11_11.xml", "blank.xml"};
-	    for (String filename: listName) {
-			File directory = new File(Crossword.GRID_DIRECTORY + filename);
-			if (directory.exists() == false) {
-				DownloadManager.downloadGrid(filename);
-			}
-	    }
-	    
-	    // Lis les xml des grilles
-	    this.gridAdapter = new ListGridAdapter(this);
-	    File directoryToScan = new File(Crossword.GRID_DIRECTORY); 
-	    File files []= directoryToScan.listFiles();
-	    try {
-	    	for (File file: files) {
-		    	GridParser parser = new GridParser();
-		    	parser.setFileName(file.getName());
-				SAXFileHandler.read((DefaultHandler)parser, file.getAbsolutePath());
-				this.gridAdapter.addGrid(parser.getData());
-	    	}
-		} catch (CrosswordException e) {
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-	    }
+			String[] listName = {"slam_28_11_11.xml", "blank.xml"};
+		    for (String filename: listName) {
+				File directory = new File(Crossword.GRID_DIRECTORY + filename);
+				if (directory.exists() == false) {
+					DownloadManager.downloadGrid(filename);
+				}
+		    }
+		    
+		    // Lis les xml des grilles
+		    this.gridAdapter = new ListGridAdapter(this);
+		    File directoryToScan = new File(Crossword.GRID_DIRECTORY); 
+		    File files []= directoryToScan.listFiles();
+		    try {
+		    	for (File file: files) {
+			    	GridParser parser = new GridParser();
+			    	parser.setFileName(file.getName());
+					SAXFileHandler.read((DefaultHandler)parser, file.getAbsolutePath());
+					this.gridAdapter.addGrid(parser.getData());
+		    	}
+			} catch (CrosswordException e) {
+				Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+		    }
 
-	    // Set la listview
-	    this.gridListView = (ListView)findViewById(R.id.gridListView);
-	    this.gridListView.setOnItemClickListener(this);
-	    this.gridListView.setAdapter(this.gridAdapter);
+		    // Set la listview
+		    this.gridListView = (ListView)findViewById(R.id.gridListView);
+		    this.gridListView.setOnItemClickListener(this);
+		    this.gridListView.setAdapter(this.gridAdapter);
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> p, View v, int i, long l) {
 		Grid grid = (Grid)this.gridAdapter.getItem(i);
-		Intent intent = new Intent(this, GameActivity.class);
+		Intent intent = new Intent(this, GameGridActivity.class);
 		intent.putExtra("filename", grid.getFileName());
-		startActivity(intent);
+		startActivityForResult(intent, 0);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//		this.initComponents();
+//		this.gridAdapter.notifyDataSetChanged();
 	}
 
 }

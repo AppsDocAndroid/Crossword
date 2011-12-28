@@ -44,7 +44,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,24 +57,18 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GameActivity extends Activity implements OnTouchListener, KeyboardViewInterface {
+public class GameGridActivity extends Activity implements OnTouchListener, KeyboardViewInterface {
 
 	public enum GRID_MODE {NORMAL, CHECK, CORRECTION};
 	public static GRID_MODE currentMode = GRID_MODE.NORMAL;
 	
-	public static final int 	GRID_WIDTH = 9;
-	public static final int 	GRID_HEIGHT = 10;
-	public static final float 	KEYBOARD_OVERLAY_OFFSET = 90;
-
 	private GridView 		gridView;
 	private KeyboardView 	keyboardView;
-	private GameGridAdapter 	gridAdapter;
+	private GameGridAdapter gridAdapter;
 	private TextView 		txtDescription;
 	private TextView 		keyboardOverlay;
 
 	private Grid			grid;
-	private String[][]		area;			// Tableau représentant les lettres du joueur
-	private String[][] 		correctionArea; // Tableau représentant les lettres correctes
 	private ArrayList<Word> entries;		// Liste des mots
 	private ArrayList<View>	selectedArea = new ArrayList<View>(); // Liste des cases selectionnées
 
@@ -106,16 +99,16 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.check:
-        	if (GameActivity.currentMode == GRID_MODE.CHECK)
-        		GameActivity.currentMode = GRID_MODE.NORMAL;
+        	if (GameGridActivity.currentMode == GRID_MODE.CHECK)
+        		GameGridActivity.currentMode = GRID_MODE.NORMAL;
         	else
-        		GameActivity.currentMode = GRID_MODE.CHECK;
+        		GameGridActivity.currentMode = GRID_MODE.CHECK;
         	this.gridAdapter.notifyDataSetChanged();
         	return true;
         case R.id.correction:
-        	if (GameActivity.currentMode == GRID_MODE.CORRECTION)
+        	if (GameGridActivity.currentMode == GRID_MODE.CORRECTION)
         	{
-        		GameActivity.currentMode = GRID_MODE.NORMAL;
+        		GameGridActivity.currentMode = GRID_MODE.NORMAL;
         		this.gridAdapter.notifyDataSetChanged();
         	}
         	else
@@ -125,8 +118,8 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 	        	       .setCancelable(false)
 	        	       .setPositiveButton(R.string.display, new DialogInterface.OnClickListener() {
 	        	           public void onClick(DialogInterface dialog, int id) {
-	        	        	   GameActivity.currentMode = GRID_MODE.CORRECTION;
-	        	        	   GameActivity.this.gridAdapter.notifyDataSetChanged();
+	        	        	   GameGridActivity.currentMode = GRID_MODE.CORRECTION;
+	        	        	   GameGridActivity.this.gridAdapter.notifyDataSetChanged();
 	        	           }
 	        	       })
 	        	       .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -174,7 +167,7 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 	    
         this.gridView = (GridView)findViewById(R.id.grid);
         this.gridView.setOnTouchListener(this);
-        this.gridView.setNumColumns(GRID_WIDTH);
+        this.gridView.setNumColumns(Crossword.GRID_WIDTH);
 
         this.keyboardView = (KeyboardView)findViewById(R.id.keyboard);
         this.keyboardView.setDelegate(this);
@@ -182,9 +175,6 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
         this.keyboardOverlay = (TextView)findViewById(R.id.keyboard_overlay);
 
         this.txtDescription = (TextView)findViewById(R.id.description);
-
-	    this.area = new String[GRID_HEIGHT][GRID_WIDTH];
-	    this.correctionArea = new String[GRID_HEIGHT][GRID_WIDTH];
 
 	    GridFullParser crosswordParser = new GridFullParser();
 	    try {
@@ -212,30 +202,8 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 	    	finish();
 	    	return;
 	    }
-	    
-	    for (Word entry: this.entries) {
-	    	String tmp = entry.getTmp();
-	    	String text = entry.getText();
-	    	boolean horizontal = entry.getHorizontal();
-	    	int x = entry.getX();
-	    	int y = entry.getY();
-	    	
-	    	for (int i = 0 ; i < entry.getLength(); i++) {
-	    		if (horizontal) {
-	    			if (y >= 0 && y < GRID_HEIGHT && x+i >= 0 && x+i < GRID_WIDTH)
-	    				this.area[y][x+i] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
-	    				this.correctionArea[y][x+i] = String.valueOf(text.charAt(i));
-	    		}
-	    		else {
-	    			if (y+i >= 0 && y+i < GRID_HEIGHT && x >= 0 && x < GRID_WIDTH)
-	    				this.area[y+i][x] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
-	    				this.correctionArea[y+i][x] = String.valueOf(text.charAt(i));
-	    		}
-	    	}
-	    }
-	    
-        Display display = getWindowManager().getDefaultDisplay();
-        this.gridAdapter = new GameGridAdapter(this, this.area, this.correctionArea, display.getWidth() / GRID_WIDTH);
+
+        this.gridAdapter = new GameGridAdapter(this, this.entries);
         this.gridView.setAdapter(this.gridAdapter);
 	}
 
@@ -263,8 +231,8 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 
             	// Stocke les coordonnees d'appuie sur l'ecran
             	this.downPos = position;
-                this.downX = this.downPos % GRID_WIDTH;
-                this.downY = this.downPos / GRID_WIDTH;
+                this.downX = this.downPos % Crossword.GRID_WIDTH;
+                this.downY = this.downPos / Crossword.GRID_WIDTH;
                 System.out.println("ACTION_DOWN, x:" + this.downX + ", y:" + this.downY + ", position: " + this.downPos);
 
                 clearSelection();
@@ -284,8 +252,8 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
             		return true;
             	
                 int position = this.gridView.pointToPosition((int)event.getX(), (int)event.getY());
-                int x = position % GRID_WIDTH;
-                int y = position / GRID_WIDTH;
+                int x = position % Crossword.GRID_WIDTH;
+                int y = position / Crossword.GRID_WIDTH;
                 System.out.println("ACTION_DOWN, x:" + x + ", y:" + y + ", position: " + position);
 
             	// Si clique sur la case, inversion horizontale <> verticale
@@ -319,7 +287,7 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
             	{
             	    this.currentX = this.currentWord.getX();
                     this.currentY = this.currentWord.getY();
-                	this.currentPos = this.currentY * GRID_WIDTH + this.currentX;
+                	this.currentPos = this.currentY * Crossword.GRID_WIDTH + this.currentX;
             	}
 
             	this.txtDescription.setText(this.currentWord.getDescription());
@@ -327,7 +295,7 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
         	    // Set background color
         	    boolean horizontal = this.currentWord.getHorizontal();
         	    for (int l = 0; l < this.currentWord.getLength(); l++) {
-        	    	int index = this.currentWord.getY() * GRID_WIDTH + this.currentWord.getX() + (l * (horizontal ? 1 : GRID_WIDTH));
+        	    	int index = this.currentWord.getY() * Crossword.GRID_WIDTH + this.currentWord.getX() + (l * (horizontal ? 1 : Crossword.GRID_WIDTH));
         	    	View currentChild = this.gridView.getChildAt(index);
         	    	if (currentChild != null) {
         	    		currentChild.setBackgroundResource(index == this.currentPos ? R.drawable.area_current : R.drawable.area_selected);
@@ -377,7 +345,7 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 		// Deplace l'overlay du clavier
 		if (value.equals(" ") == false) {
 			int offsetX = (this.keyboardOverlay.getWidth() - width) / 2;
-			int offsetY = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, KEYBOARD_OVERLAY_OFFSET, getResources().getDisplayMetrics());
+			int offsetY = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, Crossword.KEYBOARD_OVERLAY_OFFSET, getResources().getDisplayMetrics());
 			FrameLayout.LayoutParams lp = (LayoutParams)this.keyboardOverlay.getLayoutParams();
 			lp.leftMargin = location[0] - offsetX;
 			lp.topMargin = location[1] - offsetY;
@@ -406,15 +374,13 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 		int x = this.currentX;
 		int y = this.currentY;
 
-		// Si la case est pas null (= noire), retour
-		if (this.area[y][x] == null)
+		// Si la case est noire => retour
+		if (this.gridAdapter.isBlock(x, y))
 			return;
 		
 		// Ecrit la lettre sur le "curseur"
-		if (this.area[y][x] != null) {
-			this.area[y][x] = value;
-			this.gridAdapter.notifyDataSetChanged();
-		}
+		this.gridAdapter.setValue(x, y, value);
+		this.gridAdapter.notifyDataSetChanged();
 		
 		// Deplace sur le "curseur" sur la case precendante (effacer), ou suivante (lettres)
 		if (value.equals(" ")) {
@@ -428,11 +394,11 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 		}
 		
 		// Si la case suivante est disponible, met la case en jaune, remet l'ancienne en bleu, et set la nouvelle position
-		if (x >= 0 && x < GRID_WIDTH
-				&& y >= 0 && y < GRID_HEIGHT
-				&& this.area[y][x] != null) {
-			this.gridView.getChildAt(y * GRID_WIDTH + x).setBackgroundResource(R.drawable.area_current);
-			this.gridView.getChildAt(this.currentY * GRID_WIDTH + this.currentX).setBackgroundResource(R.drawable.area_selected);
+		if (x >= 0 && x < Crossword.GRID_WIDTH
+				&& y >= 0 && y < Crossword.GRID_HEIGHT
+				&& this.gridAdapter.isBlock(x, y) == false) {
+			this.gridView.getChildAt(y * Crossword.GRID_WIDTH + x).setBackgroundResource(R.drawable.area_current);
+			this.gridView.getChildAt(this.currentY * Crossword.GRID_WIDTH + this.currentX).setBackgroundResource(R.drawable.area_selected);
 			this.currentX = x;
 			this.currentY = y;
 		}
@@ -450,16 +416,19 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 		sb.append("<date>"+this.grid.getDate()+"</date>\n");
 		sb.append("<author>"+this.grid.getAuthor()+"</author>\n");
 		sb.append("<level>"+this.grid.getLevel()+"</level>\n");
-		sb.append("<percent>"+this.grid.getPercent()+"</percent>\n");
+		sb.append("<percent>"+this.gridAdapter.getPercent()+"</percent>\n");
 		sb.append("<horizontal>\n");
 	    for (Word entry: this.entries) {
 	    	if (entry.getHorizontal()) {
 	    	int x = entry.getX();
 	    	int y = entry.getY();
-	    	StringBuffer word = new StringBuffer();
-	    	for (int i = 0; i < entry.getLength(); i++)
-	    		word.append(this.area[y][x+i]);
-    	    sb.append("<word x=\""+(x+1)+"\" y=\""+(y+1)+"\" description=\""+entry.getDescription()+"\" tmp=\""+word+"\">"+entry.getText()+"</word>\n");
+    	    sb.append(String.format(
+    	    		"<word x=\"%d\" y=\"%d\" description=\"%s\" tmp=\"%s\">%s</word>\n",
+    	    		x + 1,
+    	    		y + 1,
+    	    		entry.getDescription(),
+    	    		this.gridAdapter.getWord(x, y, entry.getLength(), true),
+    	    		entry.getText()));
 	    	}
 	    }
 		sb.append("</horizontal>\n");
@@ -468,10 +437,13 @@ public class GameActivity extends Activity implements OnTouchListener, KeyboardV
 	    	if (entry.getHorizontal() == false) {
 	    	int x = entry.getX();
 	    	int y = entry.getY();
-	    	StringBuffer word = new StringBuffer();
-	    	for (int i = 0; i < entry.getLength(); i++)
-	    		word.append(this.area[y+i][x]);
-    	    sb.append("<word x=\""+(x+1)+"\" y=\""+(y+1)+"\" description=\""+entry.getDescription()+"\" tmp=\""+word+"\">"+entry.getText()+"</word>\n");
+    	    sb.append(String.format(
+    	    		"<word x=\"%d\" y=\"%d\" description=\"%s\" tmp=\"%s\">%s</word>\n",
+    	    		x + 1,
+    	    		y + 1,
+    	    		entry.getDescription(),
+    	    		this.gridAdapter.getWord(x, y, entry.getLength(), false),
+    	    		entry.getText()));
 	    	}
 	    }
 		sb.append("</vertical>\n");

@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.GameActivity"
+            android:name=".activity.GameGridActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
@@ -32,7 +32,7 @@
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
         <activity
-            android:name=".activity.ListActivity"
+            android:name=".activity.ListGridActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>

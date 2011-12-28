@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ListGridAdapter extends BaseAdapter {
@@ -67,11 +68,8 @@ public class ListGridAdapter extends BaseAdapter {
 			TextView name = (TextView)v.findViewById(R.id.name);
 			name.setText(this.data.get(position).getName());
 			
-			TextView description = (TextView)v.findViewById(R.id.description);
-			description.setText(this.data.get(position).getDescription());
-
 			TextView author = (TextView)v.findViewById(R.id.author);
-			author.setText(this.data.get(position).getAuthor());
+			author.setText(String.format(this.context.getString(R.string.author_format), this.data.get(position).getAuthor()));
 			
 			if (this.data.get(position).getDate() != null) {
 				TextView date = (TextView)v.findViewById(R.id.date);
@@ -79,13 +77,14 @@ public class ListGridAdapter extends BaseAdapter {
 			}
 			
 			TextView level = (TextView)v.findViewById(R.id.level);
-			level.setText(String.valueOf(this.data.get(position).getLevel()));
+			level.setText(String.format(this.context.getString(R.string.level_format), this.data.get(position).getLevel()));
 
-			TextView percent = (TextView)v.findViewById(R.id.percent);
-			percent.setText(String.valueOf(this.data.get(position).getPercent()));
+			ProgressBar percent = (ProgressBar)v.findViewById(R.id.percent);
+			percent.setProgress(this.data.get(position).getPercent());
 			
 			this.views.put(position, v);
 		}
+
 		return v;
 	}
 

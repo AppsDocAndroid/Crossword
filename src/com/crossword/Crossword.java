@@ -26,7 +26,9 @@ public class Crossword extends Application {
 
 	public static final String	GRID_DIRECTORY = "/data/data/com.crossword/grid/";
 	public static final int		REQUEST_PREFERENCES = 2;
-
+	public static final int 	GRID_WIDTH = 9;
+	public static final int 	GRID_HEIGHT = 10;
+	public static final float 	KEYBOARD_OVERLAY_OFFSET = 90;
 
     private static Context context;
 
