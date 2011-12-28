@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.crossword.components;
+package com.crossword.common;
 
 public class Word {
 	private int		x;

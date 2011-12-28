@@ -60,7 +60,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.button_random: {
-				Intent intent = new Intent(this, CrosswordActivity.class);
+				Intent intent = new Intent(this, GameActivity.class);
 				intent.putExtra("filename", "slam_28_11_11.xml");
 				startActivity(intent);
 				break;

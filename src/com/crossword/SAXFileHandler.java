@@ -40,7 +40,7 @@ public class SAXFileHandler {
 	public SAXFileHandler() {
 	}
 
-	public static void getFeeds(CrosswordParser parser, String filename) throws CrosswordException {
+	public static void getFeeds(GridFullParser parser, String filename) throws CrosswordException {
 		InputStream input = null;
         FileOutputStream writeFile = null;
 
@@ -124,7 +124,7 @@ public class SAXFileHandler {
 		}
 	}
 	
-	public static void getSave(CrosswordParser parser, String filename) throws CrosswordException
+	public static void getSave(GridFullParser parser, String filename) throws CrosswordException
 	{
 		read(parser, Crossword.GRID_DIRECTORY + filename);
 	}

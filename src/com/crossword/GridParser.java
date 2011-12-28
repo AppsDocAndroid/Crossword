@@ -21,7 +21,8 @@ import java.sql.Date;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import com.crossword.components.Grid;
+
+import com.crossword.common.Grid;
 
 public class GridParser extends DefaultHandler {
 	

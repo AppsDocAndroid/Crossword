@@ -24,13 +24,13 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.crossword.Crossword;
 import com.crossword.CrosswordException;
-import com.crossword.CrosswordParser;
+import com.crossword.GridFullParser;
 import com.crossword.GridParser;
 import com.crossword.R;
 import com.crossword.SAXFileHandler;
+import com.crossword.common.Grid;
 import com.crossword.components.DownloadManager;
-import com.crossword.components.Grid;
-import com.crossword.components.GridListAdapter;
+import com.crossword.components.ListGridAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,7 +46,7 @@ import android.widget.Toast;
 
 public class ListActivity extends Activity implements OnItemClickListener {
 
-	private GridListAdapter	gridAdapter;
+	private ListGridAdapter	gridAdapter;
 	private ListView		gridListView;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 	    }
 	    
 	    // Lis les xml des grilles
-	    this.gridAdapter = new GridListAdapter(this);
+	    this.gridAdapter = new ListGridAdapter(this);
 	    File directoryToScan = new File(Crossword.GRID_DIRECTORY); 
 	    File files []= directoryToScan.listFiles();
 	    try {
@@ -87,7 +87,7 @@ public class ListActivity extends Activity implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> p, View v, int i, long l) {
 		Grid grid = (Grid)this.gridAdapter.getItem(i);
-		Intent intent = new Intent(this, CrosswordActivity.class);
+		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra("filename", grid.getFileName());
 		startActivity(intent);
 	}
