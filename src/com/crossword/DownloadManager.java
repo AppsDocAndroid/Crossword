@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.crossword.components;
+package com.crossword;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.crossword.Crossword;
 
 public class DownloadManager {
 	

@@ -26,15 +26,15 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.crossword.Crossword;
 import com.crossword.CrosswordException;
-import com.crossword.GridFullParser;
-import com.crossword.GameGridAdapter;
-import com.crossword.GridParser;
 import com.crossword.R;
 import com.crossword.SAXFileHandler;
 import com.crossword.keyboard.KeyboardView;
 import com.crossword.keyboard.KeyboardViewInterface;
-import com.crossword.common.Grid;
-import com.crossword.common.Word;
+import com.crossword.parser.GridFullParser;
+import com.crossword.parser.GridParser;
+import com.crossword.adapter.GameGridAdapter;
+import com.crossword.data.Grid;
+import com.crossword.data.Word;
 
 import android.app.Activity;
 import android.app.AlertDialog;

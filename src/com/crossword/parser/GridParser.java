@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.crossword;
+package com.crossword.parser;
 
 import java.sql.Date;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.crossword.common.Grid;
+import com.crossword.data.Grid;
 
 public class GridParser extends DefaultHandler {
 	

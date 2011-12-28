@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.crossword.components;
+package com.crossword.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.crossword.R;
-import com.crossword.common.Grid;
+import com.crossword.data.Grid;
 
 import android.content.Context;
 import android.view.LayoutInflater;

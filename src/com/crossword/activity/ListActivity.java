@@ -24,13 +24,13 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.crossword.Crossword;
 import com.crossword.CrosswordException;
-import com.crossword.GridFullParser;
-import com.crossword.GridParser;
+import com.crossword.DownloadManager;
 import com.crossword.R;
 import com.crossword.SAXFileHandler;
-import com.crossword.common.Grid;
-import com.crossword.components.DownloadManager;
-import com.crossword.components.ListGridAdapter;
+import com.crossword.adapter.ListGridAdapter;
+import com.crossword.data.Grid;
+import com.crossword.parser.GridFullParser;
+import com.crossword.parser.GridParser;
 
 import android.app.Activity;
 import android.content.Intent;

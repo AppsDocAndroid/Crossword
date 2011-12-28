@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.crossword;
+package com.crossword.parser;
 
 import java.util.ArrayList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.crossword.common.Word;
+import com.crossword.data.Word;
 public class GridFullParser extends DefaultHandler {
 	
 	private ArrayList<Word>	entries;
