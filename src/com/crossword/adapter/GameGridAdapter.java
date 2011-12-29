@@ -68,15 +68,21 @@ public class GameGridAdapter extends BaseAdapter {
 	    	int y = entry.getY();
 	    	
 	    	for (int i = 0 ; i < entry.getLength(); i++) {
-	    		if (horizontal) {
+	    		if (horizontal)
+	    		{
 	    			if (y >= 0 && y < Crossword.GRID_HEIGHT && x+i >= 0 && x+i < Crossword.GRID_WIDTH)
+	    			{
 	    				this.area[y][x+i] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
 	    				this.correctionArea[y][x+i] = String.valueOf(text.charAt(i));
+	    			}
 	    		}
-	    		else {
+	    		else
+	    		{
 	    			if (y+i >= 0 && y+i < Crossword.GRID_HEIGHT && x >= 0 && x < Crossword.GRID_WIDTH)
+	    			{
 	    				this.area[y+i][x] = tmp != null ? String.valueOf(tmp.charAt(i)) : " ";
 	    				this.correctionArea[y+i][x] = String.valueOf(text.charAt(i));
+	    			}
 	    		}
 	    	}
 	    }

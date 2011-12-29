@@ -52,7 +52,7 @@ public class ListGridActivity extends Activity implements OnItemClickListener {
 
 	private void initComponents() {
 	    // Telecharge toutes les grilles
-			String[] listName = {"slam_28_11_11.xml", "blank.xml"};
+			String[] listName = {"slam_28_11_11.xml", "random_1.xml", "blank.xml"};
 		    for (String filename: listName) {
 				File directory = new File(Crossword.GRID_DIRECTORY + filename);
 				if (directory.exists() == false) {
