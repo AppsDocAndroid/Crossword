@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -79,8 +80,26 @@ public class ListGridAdapter extends BaseAdapter {
 			TextView level = (TextView)v.findViewById(R.id.level);
 			level.setText(String.format(this.context.getString(R.string.level_format), this.data.get(position).getLevel()));
 
-			ProgressBar percent = (ProgressBar)v.findViewById(R.id.percent);
-			percent.setProgress(this.data.get(position).getPercent());
+			ImageView imgPercent = (ImageView)v.findViewById(R.id.percent);
+			int percent = this.data.get(position).getPercent();
+			if (percent == 0)
+				imgPercent.setImageResource(R.drawable.progress_0);
+			else if (percent <= 15)
+				imgPercent.setImageResource(R.drawable.progress_1);
+			else if (percent <= 30)
+				imgPercent.setImageResource(R.drawable.progress_2);
+			else if (percent <= 45)
+				imgPercent.setImageResource(R.drawable.progress_3);
+			else if (percent <= 60)
+				imgPercent.setImageResource(R.drawable.progress_4);
+			else if (percent <= 75)
+				imgPercent.setImageResource(R.drawable.progress_5);
+			else if (percent <= 90)
+				imgPercent.setImageResource(R.drawable.progress_6);
+			else if (percent <= 99)
+				imgPercent.setImageResource(R.drawable.progress_7);
+			else
+				imgPercent.setImageResource(R.drawable.progress_8);
 			
 			this.views.put(position, v);
 		}

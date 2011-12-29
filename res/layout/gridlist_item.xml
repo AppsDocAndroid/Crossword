@@ -5,7 +5,7 @@
     android:layout_height="wrap_content" >
 
     <ProgressBar
-        android:id="@+id/percent"
+        android:id="@+id/percentOld"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="fill_parent"
         android:layout_height="42dp"
@@ -16,6 +16,13 @@
         android:id="@+id/linearLayout3"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
+
+        <ImageView
+            android:id="@+id/percent"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_margin="4dp"
+            android:layout_weight="0" />
 
         <LinearLayout
             android:layout_width="fill_parent"
