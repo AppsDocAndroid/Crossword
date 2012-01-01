@@ -17,11 +17,16 @@
 
 package com.crossword.parser;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.util.Log;
+
+import com.crossword.Crossword;
 import com.crossword.data.Grid;
 
 public class GridParser extends DefaultHandler {
@@ -53,27 +58,35 @@ public class GridParser extends DefaultHandler {
 			this.grid.setName(buffer.toString());
 		}
 
-		if (localName.equalsIgnoreCase("description")) {
+		else if (localName.equalsIgnoreCase("description")) {
 			this.grid.setDescription(buffer.toString());
 		}
 
-		if (localName.equalsIgnoreCase("level")) {
+		else if (localName.equalsIgnoreCase("level")) {
 			this.grid.setLevel(Integer.parseInt(buffer.toString()));
 		}
 
-		if (localName.equalsIgnoreCase("percent")) {
+		else if (localName.equalsIgnoreCase("width")) {
+			this.grid.setWidth(Integer.parseInt(buffer.toString()));
+		}
+
+		else if (localName.equalsIgnoreCase("height")) {
+			this.grid.setHeight(Integer.parseInt(buffer.toString()));
+		}
+
+		else if (localName.equalsIgnoreCase("percent")) {
 			this.grid.setPercent(Integer.parseInt(buffer.toString()));
 		}
 
-		if (localName.equalsIgnoreCase("date")) {
+		else if (localName.equalsIgnoreCase("date")) {
 			try {
-				this.grid.setDate(Date.valueOf(buffer.toString()));
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				this.grid.setDate((new SimpleDateFormat("dd/MM/yyyy")).parse(buffer.toString()));
+			} catch (ParseException e) {
+				Log.w(Crossword.NAME, "GridParser: Unable to parse grid date");
 			}
 		}
 
-		if (localName.equalsIgnoreCase("author")) {
+		else if (localName.equalsIgnoreCase("author")) {
 			this.grid.setAuthor(buffer.toString());
 		}
 	}

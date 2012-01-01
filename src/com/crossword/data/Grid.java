@@ -27,6 +27,8 @@ public class Grid {
 	private int		level;
 	private Date	date;
 	private String	author;
+	private int 	width;
+	private int 	height;
 	
 	public String getName() {
 		return name;
@@ -61,7 +63,7 @@ public class Grid {
 	}
 
 	public Date getDate() {
-		return date;
+		return this.date;
 	}
 
 	public void setDate(Date date) {
@@ -82,5 +84,21 @@ public class Grid {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public void setWidth(int value) {
+		this.width = value;
+	}
+
+	public void setHeight(int value) {
+		this.height = value;
+	}
+
+	public int getWidth() {
+		return this.width;
+	}
+
+	public int getHeight() {
+		return this.height;
 	}
 }

@@ -17,9 +17,10 @@
 
 package com.crossword.adapter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import com.crossword.R;
 import com.crossword.data.Grid;
 
@@ -29,16 +30,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class ListGridAdapter extends BaseAdapter {
+public class GridListAdapter extends BaseAdapter {
 
 	private HashMap<Integer, View>	views = new HashMap<Integer, View>();
 	private ArrayList<Grid>			data = new ArrayList<Grid>();
 	private Context 				context;
 
-	public ListGridAdapter(Context c) {
+	public GridListAdapter(Context c) {
 		this.context = c;
 	}
 	
@@ -69,16 +69,25 @@ public class ListGridAdapter extends BaseAdapter {
 			TextView name = (TextView)v.findViewById(R.id.name);
 			name.setText(this.data.get(position).getName());
 			
-			TextView author = (TextView)v.findViewById(R.id.author);
-			author.setText(String.format(this.context.getString(R.string.author_format), this.data.get(position).getAuthor()));
+			if (this.data.get(position).getAuthor() != null) {
+				TextView author = (TextView)v.findViewById(R.id.author);
+				author.setText(String.format(this.context.getString(R.string.author_format), this.data.get(position).getAuthor()));
+			}
 			
 			if (this.data.get(position).getDate() != null) {
 				TextView date = (TextView)v.findViewById(R.id.date);
-				date.setText(this.data.get(position).getDate().toString());
+				date.setVisibility(View.VISIBLE);
+				DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+				date.setText(df.format(this.data.get(position).getDate()));
 			}
 			
-			TextView level = (TextView)v.findViewById(R.id.level);
-			level.setText(String.format(this.context.getString(R.string.level_format), this.data.get(position).getLevel()));
+			ImageView level = (ImageView)v.findViewById(R.id.level);
+			switch (this.data.get(position).getLevel()) {
+			case 1: level.setImageResource(R.drawable.icon_level_1); break;
+			case 2: level.setImageResource(R.drawable.icon_level_2); break;
+			case 3: level.setImageResource(R.drawable.icon_level_3); break;
+			}
+			
 
 			ImageView imgPercent = (ImageView)v.findViewById(R.id.percent);
 			int percent = this.data.get(position).getPercent();

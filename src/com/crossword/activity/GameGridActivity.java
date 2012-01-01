@@ -30,7 +30,7 @@ import com.crossword.R;
 import com.crossword.SAXFileHandler;
 import com.crossword.keyboard.KeyboardView;
 import com.crossword.keyboard.KeyboardViewInterface;
-import com.crossword.parser.GridFullParser;
+import com.crossword.parser.CrosswordParser;
 import com.crossword.parser.GridParser;
 import com.crossword.adapter.GameGridAdapter;
 import com.crossword.data.Grid;
@@ -176,16 +176,29 @@ public class GameGridActivity extends Activity implements OnTouchListener, Keybo
 
         this.txtDescription = (TextView)findViewById(R.id.description);
 
-	    GridFullParser crosswordParser = new GridFullParser();
 	    try {
-			File file = new File(Crossword.GRID_DIRECTORY + this.filename);
+			File file = new File(String.format(Crossword.GRID_LOCAL_PATH, this.filename));
 			if (file.exists())
 			{
-				SAXFileHandler.read((DefaultHandler)crosswordParser, Crossword.GRID_DIRECTORY + this.filename);
-
+				// Get grid meta informations (name, author, date, level)
 				GridParser gridParser = new GridParser();
-				SAXFileHandler.read((DefaultHandler)gridParser, Crossword.GRID_DIRECTORY + this.filename);
+				SAXFileHandler.read((DefaultHandler)gridParser, String.format(Crossword.GRID_LOCAL_PATH, this.filename));
 				this.grid = gridParser.getData();
+			    if (this.grid == null) {
+			    	finish();
+			    	return;
+			    }
+
+			    // Get words information (word, tmp and description)
+			    CrosswordParser crosswordParser = new CrosswordParser();
+				SAXFileHandler.read((DefaultHandler)crosswordParser, String.format(Crossword.GRID_LOCAL_PATH, this.filename));
+				this.entries = crosswordParser.getData();
+			    if (this.entries == null) {
+			    	finish();
+			    	return;
+			    }
+				this.gridAdapter = new GameGridAdapter(this, this.entries);
+				this.gridView.setAdapter(this.gridAdapter);
 			}
 			else
 			{
@@ -196,15 +209,6 @@ public class GameGridActivity extends Activity implements OnTouchListener, Keybo
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
-
-	    this.entries = crosswordParser.getData();
-	    if (this.entries == null) {
-	    	finish();
-	    	return;
-	    }
-
-        this.gridAdapter = new GameGridAdapter(this, this.entries);
-        this.gridView.setAdapter(this.gridAdapter);
 	}
 
 	@Override
@@ -457,7 +461,7 @@ public class GameGridActivity extends Activity implements OnTouchListener, Keybo
 		// Write XML
 		FileWriter file;
 		try {
-			file = new FileWriter(Crossword.GRID_DIRECTORY + this.filename);
+			file = new FileWriter(String.format(Crossword.GRID_LOCAL_PATH, this.filename));
 			file.write(sb.toString());
 			file.close();
 		} catch (IOException e1) {

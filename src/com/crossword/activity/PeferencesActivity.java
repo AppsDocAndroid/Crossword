@@ -50,7 +50,11 @@ public class PeferencesActivity extends PreferenceActivity {
 	    File files[] = directoryToScan.listFiles();
 	    for (File file: files)
 	    	file.delete();
+	    File gridlist = new File(Crossword.GRIDLIST_LOCAL_PATH);
+	    if (gridlist.exists())
+	    	gridlist.delete();
 		Toast.makeText(this, "clear...", Toast.LENGTH_SHORT).show();
+		finish();
 	}
 
 }

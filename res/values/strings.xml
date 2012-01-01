@@ -22,5 +22,6 @@
     <string name="button_list">Liste des\ngrilles</string>
     <string name="button_category">Grilles par\ncatégorie</string>
     <string name="button_search">Rechercher\nun mot</string>
+    <string name="percent">Pourcentage</string>
 
 </resources>

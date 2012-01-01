@@ -66,7 +66,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				break;
 			}
 			case R.id.button_list: {
-				Intent intent = new Intent(this, ListGridActivity.class);
+				Intent intent = new Intent(this, GridListActivity.class);
 				startActivity(intent);
 				break;
 			}

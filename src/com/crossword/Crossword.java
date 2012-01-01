@@ -25,10 +25,14 @@ import android.content.Context;
 public class Crossword extends Application {
 
 	public static final String	GRID_DIRECTORY = "/data/data/com.crossword/grid/";
+	public static final String	GRID_LOCAL_PATH = "/data/data/com.crossword/grid/%s";
+	public static final String	GRIDLIST_LOCAL_PATH = "/data/data/com.crossword/gridlist.xml";
+	public static final long 	GRIDLIST_OUTDATED = 86400000;
 	public static final int		REQUEST_PREFERENCES = 2;
 	public static final int 	GRID_WIDTH = 9;
 	public static final int 	GRID_HEIGHT = 10;
 	public static final float 	KEYBOARD_OVERLAY_OFFSET = 90;
+	public static final String 	NAME = "Crossword";
 
     private static Context context;
 

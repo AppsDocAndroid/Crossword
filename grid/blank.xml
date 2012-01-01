@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grid>
   <name>blank</name>
+  <date>01/01/1970</date>
+  <level>1</level>
+  <width>9</width>
+  <height>9</height>
   <horizontal>
     <word x="1" y="1" description="">         </word>
     <word x="1" y="2" description="">         </word>
