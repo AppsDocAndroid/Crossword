@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grid>
-  <name>Emission SLAM - 28 novembre 2011</name>
+  <name>Emission SLAM</name>
   <date>28/11/2011</date>
   <author>Slam</author>
+  <level>3</level>
+  <width>9</width>
+  <height>8</height>
   <horizontal>
     <word x="3" y="1" description="Elle n'aime pas le mono">stereo</word>
     <word x="1" y="4" description="Elle n'est pas tout à fait juste">partial</word>
