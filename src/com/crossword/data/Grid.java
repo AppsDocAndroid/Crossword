@@ -19,7 +19,12 @@ package com.crossword.data;
 
 import java.util.Date;
 
-public class Grid {
+/**
+ * Data class for grid meta information
+ * 
+ * @author alex
+ */
+public class Grid  implements Comparable<Grid> {
 	private String	fileName;
 	private String	name;
 	private String	description;
@@ -30,6 +35,18 @@ public class Grid {
 	private int 	width;
 	private int 	height;
 	
+	// This is a little hack, if isSeparator is true, element will be displayed
+	// with "date separator" layout (a week ago, a month ago, etc).
+	private boolean	isSeparator;
+
+	public boolean isSeparator() {
+		return this.isSeparator;
+	}
+	
+	public void isSeparator(boolean value) {
+		this.isSeparator = value;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -101,4 +118,15 @@ public class Grid {
 	public int getHeight() {
 		return this.height;
 	}
+
+	@Override
+	public int compareTo(Grid arg) {
+		if (arg.getDate() == null)
+			return -1;
+		if (this.date == null)
+			return 1;
+			
+		return this.date.before(arg.getDate()) ? 1 : -1;
+	}
+
 }

@@ -23,5 +23,14 @@
     <string name="button_category">Grilles par\ncatégorie</string>
     <string name="button_search">Rechercher\nun mot</string>
     <string name="percent">Pourcentage</string>
+    <string name="save_dialog_title">Enregistrement</string>
+    <string name="save_dialog_content">Enregistrement de la grille</string>
+    <string name="one_day_ago">Moins d\'une semaine</string>
+    <string name="one_week_ago">Plus une semaine</string>
+    <string name="one_month_ago">Plus d\'un mois</string>
+    <string name="menu_check">Correction pas à pas</string>
+    <string name="menu_solution">Révéler toute la grille</string>
+    <string name="menu_settings">Préférences</string>
+    <string name="menu_feedback">Feedback</string>
 
 </resources>

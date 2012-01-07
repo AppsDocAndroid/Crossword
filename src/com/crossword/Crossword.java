@@ -25,9 +25,11 @@ import android.content.Context;
 public class Crossword extends Application {
 
 	public static final String	GRID_DIRECTORY = "/data/data/com.crossword/grid/";
+	public static final String 	GRID_REMOTE_PATH = "http://crossword.lauper.fr/grids/%s";
 	public static final String	GRID_LOCAL_PATH = "/data/data/com.crossword/grid/%s";
+	public static final String 	GRIDLIST_REMOTE_PATH = "http://crossword.lauper.fr/grids/index.php";
 	public static final String	GRIDLIST_LOCAL_PATH = "/data/data/com.crossword/gridlist.xml";
-	public static final long 	GRIDLIST_OUTDATED = 86400000;
+	public static final long 	GRIDLIST_LIFE_TIME = 86400000;
 	public static final int		REQUEST_PREFERENCES = 2;
 	public static final int 	GRID_WIDTH = 9;
 	public static final int 	GRID_HEIGHT = 10;

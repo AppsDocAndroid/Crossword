@@ -79,6 +79,7 @@ public class GridParser extends DefaultHandler {
 		}
 
 		else if (localName.equalsIgnoreCase("date")) {
+			System.out.println(buffer.toString());
 			try {
 				this.grid.setDate((new SimpleDateFormat("dd/MM/yyyy")).parse(buffer.toString()));
 			} catch (ParseException e) {

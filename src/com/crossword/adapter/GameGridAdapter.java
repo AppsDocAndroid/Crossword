@@ -150,7 +150,7 @@ public class GameGridAdapter extends BaseAdapter {
     		}
     	}
 		// Si la grille est en mode correction, ajoute les bonnes lettres en verte
-    	else if (GameGridActivity.currentMode == GameGridActivity.GRID_MODE.CORRECTION)
+    	else if (GameGridActivity.currentMode == GameGridActivity.GRID_MODE.SOLVE)
     	{
     		if (data != null && data.equalsIgnoreCase(correction)) {
     			v.setTextColor(context.getResources().getColor(R.color.normal));

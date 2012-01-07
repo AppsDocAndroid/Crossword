@@ -2,13 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/check"
-        android:title="Check"/>
+        android:id="@+id/menu_check"
+        android:icon="@drawable/ic_menu_check"
+        android:title="@string/menu_check"/>
     <item
-        android:id="@+id/correction"
-        android:title="Correction"/>
+        android:id="@+id/menu_solve"
+        android:icon="@drawable/ic_menu_solve"
+        android:title="@string/menu_solution"/>
     <item
         android:id="@+id/menu_main_preferences"
-        android:title="Settings"/>
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/menu_settings"/>
+    <item
+        android:id="@+id/menu_feedback"
+        android:icon="@drawable/ic_menu_notifications"
+        android:title="@string/menu_feedback"/>
 
 </menu>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <name>0004</name>
+  <date>03/01/2012</date>
+  <author>Alexis Lauper</author>
+  <level>2</level>
+  <width>9</width>
+  <height>9</height>
+  <horizontal>
+    <word x="1" y="1" description="">hamburger</word>
+    <word x="3" y="2" description="">munir</word>
+    <word x="1" y="3" description="">reel</word>
+    <word x="6" y="3" description="">rosi</word>
+    <word x="1" y="4" description="">ms</word>
+    <word x="4" y="4" description="">bleues</word>
+    <word x="1" y="5" description="">ose</word>
+    <word x="7" y="5" description="">pro</word>
+    <word x="1" y="6" description="">nommai</word>
+    <word x="8" y="6" description="">in</word>
+    <word x="1" y="7" description="">irai</word>
+    <word x="6" y="7" description="">oman</word>
+    <word x="3" y="8" description="">ixode</word>
+    <word x="1" y="9" description="">enlacerai</word>
+  </horizontal>
+  <vertical>
+    <word x="1" y="1" description="">harmonise</word>
+    <word x="2" y="3" description="">essor</word>
+    <word x="3" y="1" description="">mme</word>
+    <word x="3" y="5" description="">email</word>
+    <word x="4" y="1" description="">bulb</word>
+    <word x="4" y="6" description="">mixa</word>
+    <word x="5" y="1" description="">un</word>
+    <word x="5" y="4" description="">lea</word>
+    <word x="5" y="8" description="">oc</word>
+    <word x="6" y="1" description="">rire</word>
+    <word x="6" y="6" description="">iode</word>
+    <word x="7" y="1" description="">group</word>
+    <word x="7" y="7" description="">mer</word>
+    <word x="8" y="3" description="">seria</word>
+    <word x="9" y="1" description="">raisonnai</word>
+  </vertical>
+</grid>

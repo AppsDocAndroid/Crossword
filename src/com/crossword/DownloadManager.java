@@ -25,8 +25,6 @@ import java.net.URLConnection;
 
 
 public class DownloadManager {
-	private static final String GRID_REMOTE_PATH = "http://crossword.lauper.fr/grids/%s";
-	private static final String GRIDLIST_REMOTE_PATH = "http://crossword.lauper.fr/grids.xml";
 
 	public static void download(String in, String out) {
 		InputStream input = null;
@@ -77,10 +75,10 @@ public class DownloadManager {
 	}
 	
 	public static void downloadGrid(String filename) {
-		DownloadManager.download(String.format(GRID_REMOTE_PATH, filename), String.format(Crossword.GRID_LOCAL_PATH, filename));
+		DownloadManager.download(String.format(Crossword.GRID_REMOTE_PATH, filename), String.format(Crossword.GRID_LOCAL_PATH, filename));
 	}
 
 	public static void downloadListGrid() {
-		DownloadManager.download(GRIDLIST_REMOTE_PATH, Crossword.GRIDLIST_LOCAL_PATH);
+		DownloadManager.download(Crossword.GRIDLIST_REMOTE_PATH, Crossword.GRIDLIST_LOCAL_PATH);
 	}
 }

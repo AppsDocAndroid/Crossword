@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="normal">#000000</color>
-    <color name="wrong">#FF0000</color>
-    <color name="right">#00FF00</color>
+    <color name="normal">#000</color>
+    <color name="wrong">#F00</color>
+    <color name="right">#0F0</color>
+    <color name="gridlist_divider">#BBB</color>
 
 </resources>

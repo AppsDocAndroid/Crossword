@@ -20,6 +20,7 @@ package com.crossword.activity;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.xml.sax.helpers.DefaultHandler;
@@ -38,12 +39,14 @@ import com.crossword.data.Word;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,7 +62,7 @@ import android.widget.Toast;
 
 public class GameGridActivity extends Activity implements OnTouchListener, KeyboardViewInterface {
 
-	public enum GRID_MODE {NORMAL, CHECK, CORRECTION};
+	public enum GRID_MODE {NORMAL, CHECK, SOLVE};
 	public static GRID_MODE currentMode = GRID_MODE.NORMAL;
 	
 	private GridView 		gridView;
@@ -94,19 +97,59 @@ public class GameGridActivity extends Activity implements OnTouchListener, Keybo
         inflater.inflate(R.menu.crossword, menu);
         return true;
     }
-
+    
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+    	MenuItem itemCheck = menu.findItem(R.id.menu_check);
+    	MenuItem itemSolve = menu.findItem(R.id.menu_solve);
+    	if (GameGridActivity.currentMode == GRID_MODE.CHECK) {
+    		itemSolve.setIcon(R.drawable.ic_menu_solve);
+			itemCheck.setIcon(R.drawable.ic_menu_check_enable);
+		}
+    	else if (GameGridActivity.currentMode == GRID_MODE.SOLVE) {
+			itemCheck.setIcon(R.drawable.ic_menu_check);
+			itemSolve.setIcon(R.drawable.ic_menu_solve_enable);
+		}
+		else {
+			itemCheck.setIcon(R.drawable.ic_menu_check);
+			itemSolve.setIcon(R.drawable.ic_menu_solve);
+		}
+		return true;
+    }
+
+    
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+    		String title = this.getString(R.string.save_dialog_title);
+    		String content = this.getString(R.string.save_dialog_content);
+    		final ProgressDialog dialog = ProgressDialog.show(this, title, content, true);
+    		dialog.show();
+    		new Thread((new Runnable() {
+    			@Override
+    			public void run() {
+    				GameGridActivity.this.save();
+    				dialog.dismiss();
+    				GameGridActivity.this.finish();
+    			}
+    		})).start();
+    		return true;
+    	}
+		return false;
+    }
+
+	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.check:
+        case R.id.menu_check:
         	if (GameGridActivity.currentMode == GRID_MODE.CHECK)
         		GameGridActivity.currentMode = GRID_MODE.NORMAL;
         	else
         		GameGridActivity.currentMode = GRID_MODE.CHECK;
         	this.gridAdapter.notifyDataSetChanged();
         	return true;
-        case R.id.correction:
-        	if (GameGridActivity.currentMode == GRID_MODE.CORRECTION)
+        case R.id.menu_solve:
+        	if (GameGridActivity.currentMode == GRID_MODE.SOLVE)
         	{
         		GameGridActivity.currentMode = GRID_MODE.NORMAL;
         		this.gridAdapter.notifyDataSetChanged();
@@ -118,7 +161,7 @@ public class GameGridActivity extends Activity implements OnTouchListener, Keybo
 	        	       .setCancelable(false)
 	        	       .setPositiveButton(R.string.display, new DialogInterface.OnClickListener() {
 	        	           public void onClick(DialogInterface dialog, int id) {
-	        	        	   GameGridActivity.currentMode = GRID_MODE.CORRECTION;
+	        	        	   GameGridActivity.currentMode = GRID_MODE.SOLVE;
 	        	        	   GameGridActivity.this.gridAdapter.notifyDataSetChanged();
 	        	           }
 	        	       })
@@ -408,48 +451,42 @@ public class GameGridActivity extends Activity implements OnTouchListener, Keybo
 		}
 	}
 	
-	@Override
-	public void onStop() {
-		super.onStop();
+    private void save() {
 		// Sauvegarde vers le XML
-		StringBuffer sb = new StringBuffer();
+
+    	StringBuffer wordHorizontal = new StringBuffer();
+    	StringBuffer wordVertical = new StringBuffer();
+	    for (Word entry: this.entries) {
+	    	int x = entry.getX();
+	    	int y = entry.getY();
+    	    String word = String.format(
+    	    		"<word x=\"%d\" y=\"%d\" description=\"%s\" tmp=\"%s\">%s</word>\n",
+    	    		x + 1,
+    	    		y + 1,
+    	    		entry.getDescription(),
+    	    		this.gridAdapter.getWord(x, y, entry.getLength(), entry.getHorizontal()),
+    	    		entry.getText());
+    	    if (entry.getHorizontal())
+    	    	wordHorizontal.append(word);
+    	    else
+    	    	wordVertical.append(word);
+	    }
+
+    	StringBuffer sb = new StringBuffer();
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		sb.append("<grid>\n");
-		sb.append("<name>"+this.grid.getName()+"</name>\n");
-		sb.append("<description>"+this.grid.getDescription()+"</description>\n");
-		sb.append("<date>"+this.grid.getDate()+"</date>\n");
-		sb.append("<author>"+this.grid.getAuthor()+"</author>\n");
-		sb.append("<level>"+this.grid.getLevel()+"</level>\n");
-		sb.append("<percent>"+this.gridAdapter.getPercent()+"</percent>\n");
+		sb.append("<name>" + grid.getName() + "</name>\n");
+		sb.append("<description>" + grid.getDescription() + "</description>\n");
+		if (this.grid.getDate() != null)
+			sb.append("<date>" + new SimpleDateFormat("dd/MM/yyyy").format(grid.getDate()) + "</date>\n");
+		sb.append("<author>" + grid.getAuthor() + "</author>\n");
+		sb.append("<level>" + grid.getLevel() + "</level>\n");
+		sb.append("<percent>" + gridAdapter.getPercent()+"</percent>\n");
 		sb.append("<horizontal>\n");
-	    for (Word entry: this.entries) {
-	    	if (entry.getHorizontal()) {
-	    	int x = entry.getX();
-	    	int y = entry.getY();
-    	    sb.append(String.format(
-    	    		"<word x=\"%d\" y=\"%d\" description=\"%s\" tmp=\"%s\">%s</word>\n",
-    	    		x + 1,
-    	    		y + 1,
-    	    		entry.getDescription(),
-    	    		this.gridAdapter.getWord(x, y, entry.getLength(), true),
-    	    		entry.getText()));
-	    	}
-	    }
+		sb.append(wordHorizontal);
 		sb.append("</horizontal>\n");
 		sb.append("<vertical>\n");
-	    for (Word entry: this.entries) {
-	    	if (entry.getHorizontal() == false) {
-	    	int x = entry.getX();
-	    	int y = entry.getY();
-    	    sb.append(String.format(
-    	    		"<word x=\"%d\" y=\"%d\" description=\"%s\" tmp=\"%s\">%s</word>\n",
-    	    		x + 1,
-    	    		y + 1,
-    	    		entry.getDescription(),
-    	    		this.gridAdapter.getWord(x, y, entry.getLength(), false),
-    	    		entry.getText()));
-	    	}
-	    }
+		sb.append(wordVertical);
 		sb.append("</vertical>\n");
 		sb.append("</grid>\n");
 		

@@ -20,10 +20,12 @@ package com.crossword.adapter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+
 import com.crossword.R;
 import com.crossword.data.Grid;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,25 +38,33 @@ public class GridListAdapter extends BaseAdapter {
 
 	private HashMap<Integer, View>	views = new HashMap<Integer, View>();
 	private ArrayList<Grid>			data = new ArrayList<Grid>();
-	private Context 				context;
+	private LayoutInflater 			inflater;
 
 	public GridListAdapter(Context c) {
-		this.context = c;
+		this.inflater = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 	
+	/**
+	 * Return list items count, including date separator
+	 */
 	@Override
 	public int getCount() {
 		return this.data.size();
 	}
 
+	/**
+	 * Return grid for this position
+	 */
 	@Override
 	public Object getItem(int position) {
 		return this.data.get(position);
 	}
 
+	/**
+	 * Not applicable
+	 */
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -62,33 +72,59 @@ public class GridListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		View v = this.views.get(position);
-		if (v == null) {
-			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = inflater.inflate(R.layout.gridlist_item, null);
-			
-			TextView name = (TextView)v.findViewById(R.id.name);
-			name.setText(this.data.get(position).getName());
-			
-			if (this.data.get(position).getAuthor() != null) {
-				TextView author = (TextView)v.findViewById(R.id.author);
-				author.setText(String.format(this.context.getString(R.string.author_format), this.data.get(position).getAuthor()));
-			}
-			
-			if (this.data.get(position).getDate() != null) {
-				TextView date = (TextView)v.findViewById(R.id.date);
-				date.setVisibility(View.VISIBLE);
-				DateFormat df = new SimpleDateFormat("d MMMM yyyy");
-				date.setText(df.format(this.data.get(position).getDate()));
-			}
-			
-			ImageView level = (ImageView)v.findViewById(R.id.level);
-			switch (this.data.get(position).getLevel()) {
-			case 1: level.setImageResource(R.drawable.icon_level_1); break;
-			case 2: level.setImageResource(R.drawable.icon_level_2); break;
-			case 3: level.setImageResource(R.drawable.icon_level_3); break;
-			}
-			
 
+		if (this.data.get(position).isSeparator())
+		{
+			if (v == null)
+			{
+				v = this.inflater.inflate(R.layout.gridlist_separator, null);
+				
+				TextView name = (TextView)v.findViewById(R.id.name);
+				name.setText(this.data.get(position).getName());
+
+				if (position + 1 < this.getCount() && this.data.get(position + 1).isSeparator()) {
+					v.setVisibility(View.GONE);
+					name.setVisibility(View.GONE);
+					v.setBackgroundDrawable(null);
+				}
+
+				this.views.put(position, v);
+			}
+		}
+		else
+		{
+			if (v == null)
+			{
+				v = this.inflater.inflate(R.layout.gridlist_item, null);
+				
+				// Name
+				TextView name = (TextView)v.findViewById(R.id.name);
+				name.setText(this.data.get(position).getName());
+				
+				// Author
+				if (this.data.get(position).getAuthor() != null) {
+					TextView author = (TextView)v.findViewById(R.id.author);
+					author.setText(this.data.get(position).getAuthor());
+				}
+				
+				// Date
+				if (this.data.get(position).getDate() != null) {
+					TextView date = (TextView)v.findViewById(R.id.date);
+					DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+					date.setText(df.format(this.data.get(position).getDate()));
+				}
+				
+				// Difficulty
+				ImageView level = (ImageView)v.findViewById(R.id.level);
+				switch (this.data.get(position).getLevel()) {
+				case 1: level.setImageResource(R.drawable.icon_level_1); break;
+				case 2: level.setImageResource(R.drawable.icon_level_2); break;
+				case 3: level.setImageResource(R.drawable.icon_level_3); break;
+				}
+				this.views.put(position, v);
+			}
+
+			// Progression
 			ImageView imgPercent = (ImageView)v.findViewById(R.id.percent);
 			int percent = this.data.get(position).getPercent();
 			if (percent == 0)
@@ -109,15 +145,50 @@ public class GridListAdapter extends BaseAdapter {
 				imgPercent.setImageResource(R.drawable.progress_7);
 			else
 				imgPercent.setImageResource(R.drawable.progress_8);
-			
-			this.views.put(position, v);
 		}
 
 		return v;
 	}
 
+	/**
+	 * Add grid or date separator to the list
+	 * 
+	 * @param item
+	 */
 	public void addGrid(Grid item) {
 		this.data.add(item);
+	}
+
+	/**
+	 * Remove all items from the list, including date separator
+	 */
+	public void clear() {
+		this.data.clear();
+	}
+
+	/**
+	 * Sort by date list datasource
+	 */
+	public void sort() {
+		Collections.sort(this.data);
+	}
+
+	/** Add time separator (a week ago, 2 weeks ago, etc)
+	 * 
+	 * @param name
+	 * @param dayAgo
+	 */
+	public void addSeparator(String name, int dayAgo) {
+		Calendar cal = Calendar.getInstance();
+
+		Grid grid = new Grid();
+	    grid.isSeparator(true);
+	    grid.setName(name);
+        cal.setTime(new java.util.Date());
+        cal.add(Calendar.DATE, dayAgo);
+        grid.setDate(cal.getTime());
+        
+        this.addGrid(grid);
 	}
 
 }

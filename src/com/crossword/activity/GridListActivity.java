@@ -20,7 +20,6 @@ package com.crossword.activity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.crossword.Crossword;
@@ -73,13 +72,28 @@ public class GridListActivity extends Activity implements OnItemClickListener {
 	    setContentView(R.layout.gridlist);
 	    this.initComponents();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		this.readGridDirectory();
+	}
 
 	private void initComponents()
+	{
+	    // Set listview
+	    this.gridAdapter = new GridListAdapter(this);
+	    this.gridListView = (ListView)findViewById(R.id.gridListView);
+	    this.gridListView.setOnItemClickListener(this);
+	    this.gridListView.setAdapter(this.gridAdapter);
+	}
+	
+	private void readGridDirectory()
 	{
 		// Download grid list
 		File gridListFile = new File(Crossword.GRIDLIST_LOCAL_PATH);
 		long now = Calendar.getInstance().getTimeInMillis();
-		long expire = gridListFile.lastModified() + Crossword.GRIDLIST_OUTDATED;
+		long expire = gridListFile.lastModified() + Crossword.GRIDLIST_LIFE_TIME;
 		if (gridListFile.exists() == false || now > expire)
 		{
 			gridListFile.lastModified();
@@ -87,28 +101,30 @@ public class GridListActivity extends Activity implements OnItemClickListener {
 	    	GridListParser listGridParser = new GridListParser();
 			DownloadManager.downloadListGrid();
 			try {
+				// Get and parse grid index
 				SAXFileHandler.read((DefaultHandler)listGridParser, Crossword.GRIDLIST_LOCAL_PATH);
 				gridList = listGridParser.getList();
+
+				// Download grids
+				for (String filename: gridList) {
+					File file = new File(String.format(Crossword.GRID_LOCAL_PATH, filename));
+					if (file.exists() == false) {
+						DownloadManager.downloadGrid(filename);
+					}
+				}
 			} catch (CrosswordException e) {
 				Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 				finish();
-			}
-
-			// Download grids
-			for (String filename: gridList) {
-				File file = new File(String.format(Crossword.GRID_LOCAL_PATH, filename));
-				if (file.exists() == false) {
-					DownloadManager.downloadGrid(filename);
-				}
+				return;
 			}
 		}
 
 		// Read grids
-	    this.gridAdapter = new GridListAdapter(this);
 	    File directoryToScan = new File(Crossword.GRID_DIRECTORY); 
 	    File files[] = directoryToScan.listFiles();
 	    try {
+	    	this.gridAdapter.clear();
 	    	for (File file: files) {
 		    	GridParser parser = new GridParser();
 		    	parser.setFileName(file.getName());
@@ -121,10 +137,16 @@ public class GridListActivity extends Activity implements OnItemClickListener {
 			finish();
 	    }
 
-	    // Set listview
-	    this.gridListView = (ListView)findViewById(R.id.gridListView);
-	    this.gridListView.setOnItemClickListener(this);
-	    this.gridListView.setAdapter(this.gridAdapter);
+	    // Add separator (a week ago, two week ago, a month ago)
+	    this.gridAdapter.addSeparator(getString(R.string.one_day_ago), -1);
+	    this.gridAdapter.addSeparator(getString(R.string.one_week_ago), -7);
+	    this.gridAdapter.addSeparator(getString(R.string.one_month_ago), -31);
+
+	    // Sort gridlist by date
+		this.gridAdapter.sort();
+		
+		// Notify adapter
+		this.gridAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -132,7 +154,7 @@ public class GridListActivity extends Activity implements OnItemClickListener {
 		Grid grid = (Grid)this.gridAdapter.getItem(i);
 		Intent intent = new Intent(this, GameGridActivity.class);
 		intent.putExtra("filename", grid.getFileName());
-		startActivityForResult(intent, 0);
+		startActivity(intent);
 	}
 	
 	@Override
