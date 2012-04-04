@@ -17,14 +17,19 @@
 
 package com.crossword.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Data class for grid meta information
  * 
  * @author alex
  */
-public class Grid  implements Comparable<Grid> {
+public class Grid implements Parcelable, Comparable<Grid> {
 	private String	fileName;
 	private String	name;
 	private String	description;
@@ -35,9 +40,63 @@ public class Grid  implements Comparable<Grid> {
 	private int 	width;
 	private int 	height;
 	
+	public Grid() {
+	}
+	
+	public Grid(Parcel in) {
+		fileName = in.readString();
+		name = in.readString();
+		description = in.readString();
+		percent = in.readInt();
+		level = in.readInt();
+		author = in.readString();
+		width = in.readInt();
+		height = in.readInt();
+		rawDate = in.readString();
+		try {
+			date = new SimpleDateFormat("dd/MM/yyyy").parse(rawDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(fileName);
+		dest.writeString(name);
+		dest.writeString(description);
+		dest.writeInt(percent);
+		dest.writeInt(level);
+		dest.writeString(author);
+		dest.writeInt(width);
+		dest.writeInt(height);
+		dest.writeString(rawDate);
+	}
+
+	public static final Parcelable.Creator<Grid> CREATOR = new Parcelable.Creator<Grid>() {
+		@Override
+		public Grid createFromParcel(Parcel source)
+		{
+			return new Grid(source);
+		}
+
+		@Override
+		public Grid[] newArray(int size)
+		{
+			return new Grid[size];
+		}
+	};
+	
 	// This is a little hack, if isSeparator is true, element will be displayed
 	// with "date separator" layout (a week ago, a month ago, etc).
 	private boolean	isSeparator;
+	private String rawDate;
 
 	public boolean isSeparator() {
 		return this.isSeparator;
@@ -129,4 +188,7 @@ public class Grid  implements Comparable<Grid> {
 		return this.date.before(arg.getDate()) ? 1 : -1;
 	}
 
+	public void setRawDate(String value) {
+		this.rawDate = value;
+	}
 }

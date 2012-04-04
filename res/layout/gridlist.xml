@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#000000"
-    android:orientation="vertical" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
+     <TextView
+     android:id="@+id/gridListMessage"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:gravity="center"
+     android:padding="5dp"
+     android:textColor="#DDDDDD" android:text="@string/grid_list_is_empty" android:layout_gravity="center" android:visibility="gone"/>
+    
     <ListView
         android:id="@+id/gridListView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="fill_parent" />
 
-</LinearLayout>
+</merge>

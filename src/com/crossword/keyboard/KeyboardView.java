@@ -33,6 +33,7 @@ public class KeyboardView extends LinearLayout implements OnTouchListener {
 	private KeyboardViewInterface	delegate;
 	private View 					currentView;
 	private String 					value;
+	private boolean					isDraft;
 	
 	/** Constructeur
 	 * 
@@ -88,6 +89,7 @@ public class KeyboardView extends LinearLayout implements OnTouchListener {
 		this.findViewById(R.id.buttonX).setOnTouchListener(this);
 		this.findViewById(R.id.buttonY).setOnTouchListener(this);
 		this.findViewById(R.id.buttonZ).setOnTouchListener(this);
+		this.findViewById(R.id.buttonDRAFT).setOnTouchListener(this);
 		this.findViewById(R.id.buttonDELETE).setOnTouchListener(this);
 	}
 
@@ -126,21 +128,53 @@ public class KeyboardView extends LinearLayout implements OnTouchListener {
         		case R.id.buttonX: this.value = "X"; break;
         		case R.id.buttonY: this.value = "Y"; break;
         		case R.id.buttonZ: this.value = "Z"; break;
-        		case R.id.buttonDELETE: this.value = " "; break;
+        		case R.id.buttonDELETE: this.value = null; break;
+        		case R.id.buttonDRAFT: this.value = null; break;
         		}
 
         		this.currentView = v;
         		int[] location = new int[2];
         		this.currentView.getLocationOnScreen(location);
-        		this.currentView.setBackgroundResource(R.drawable.keyboard_pressed);
-        		this.delegate.onKeyDown(value, location, this.currentView.getWidth());
+        		
+        		// Change key background (selector actually doesn't work with KeyboardView)
+        		if (v.getId() == R.id.buttonDELETE)
+        			this.currentView.setBackgroundResource(R.drawable.btn_keyboard_delete_pressed);
+        		else if (v.getId() == R.id.buttonDRAFT)
+        			this.currentView.setBackgroundResource(this.isDraft
+        					? R.drawable.btn_keyboard_draft_pressed_lock
+        							: R.drawable.btn_keyboard_draft_pressed_lock);
+        		else
+        			this.currentView.setBackgroundResource(R.drawable.btn_keyboard_pressed);
+        		
+            	if (this.value != null)
+            		this.delegate.onKeyDown(value, location, this.currentView.getWidth());
         		break;
             }
 
             case MotionEvent.ACTION_UP:
             {
-            	this.currentView.setBackgroundResource(R.drawable.keyboard_release);
-        		this.delegate.onKeyUp(value);
+        		switch (v.getId()) {
+        		case R.id.buttonDELETE:
+            		this.delegate.onKeyUp(" ");
+        			break;
+        		case R.id.buttonDRAFT:
+        			this.isDraft = !this.isDraft;
+        			this.delegate.setDraft(this.isDraft);
+        			break;
+        		}
+        		
+        		// Change key background (selector actually doesn't work with KeyboardView)
+        		if (v.getId() == R.id.buttonDELETE)
+        			this.currentView.setBackgroundResource(R.drawable.btn_keyboard_delete_release);
+        		else if (v.getId() == R.id.buttonDRAFT)
+        			this.currentView.setBackgroundResource(this.isDraft
+        					? R.drawable.btn_keyboard_draft_release_lock
+        							: R.drawable.btn_keyboard_draft_release_unlock);
+        		else
+        			this.currentView.setBackgroundResource(R.drawable.btn_keyboard_release);
+
+        		if (this.value != null)
+            		this.delegate.onKeyUp(value);
         		break;
             }
         }

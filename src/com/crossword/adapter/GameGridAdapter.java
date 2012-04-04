@@ -22,7 +22,7 @@ import java.util.HashMap;
 
 import com.crossword.Crossword;
 import com.crossword.R;
-import com.crossword.activity.GameGridActivity;
+import com.crossword.activity.GameActivity;
 import com.crossword.data.Word;
 
 import android.app.Activity;
@@ -47,6 +47,7 @@ public class GameGridAdapter extends BaseAdapter {
 	private String[][] 					correctionArea; // Tableau représentant les lettres correctes
 	private int 						height;
 	private boolean						isLower;
+	private boolean 					isDraft;
 
 	public GameGridAdapter(Activity act, ArrayList<Word> entries) {
 		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act);
@@ -142,7 +143,7 @@ public class GameGridAdapter extends BaseAdapter {
 		}
 
 		// Si la grille est en mode check, colore les fautes en rouge
-    	if (GameGridActivity.currentMode == GameGridActivity.GRID_MODE.CHECK)
+    	if (((GameActivity)this.context).currentMode == GameActivity.GRID_MODE.CHECK)
     	{
     		if (data != null) {
     			v.setTextColor(context.getResources().getColor(data.equalsIgnoreCase(correction) ? R.color.normal : R.color.wrong));
@@ -150,7 +151,7 @@ public class GameGridAdapter extends BaseAdapter {
     		}
     	}
 		// Si la grille est en mode correction, ajoute les bonnes lettres en verte
-    	else if (GameGridActivity.currentMode == GameGridActivity.GRID_MODE.SOLVE)
+    	else if (((GameActivity)this.context).currentMode == GameActivity.GRID_MODE.SOLVE)
     	{
     		if (data != null && data.equalsIgnoreCase(correction)) {
     			v.setTextColor(context.getResources().getColor(R.color.normal));
@@ -164,8 +165,11 @@ public class GameGridAdapter extends BaseAdapter {
     	else
     	{
     		if (data != null) {
-    			v.setTextColor(context.getResources().getColor(R.color.normal));
-    	    	v.setText(this.isLower ? data.toLowerCase() : data.toUpperCase());
+    			if (Character.isLowerCase(data.charAt(0)))
+    				v.setTextColor(context.getResources().getColor(R.color.draft));
+    			else
+    				v.setTextColor(context.getResources().getColor(R.color.normal));
+    			v.setText(this.isLower ? data.toLowerCase() : data.toUpperCase());
     		}
     	}
 		
@@ -197,7 +201,7 @@ public class GameGridAdapter extends BaseAdapter {
 
 	public void setValue(int x, int y, String value) {
 		if (this.area[y][x] != null)
-			this.area[y][x] = value;
+			this.area[y][x] = this.isDraft ? value.toLowerCase() : value.toUpperCase();
 	}
 
 	public String getWord(int x, int y, int length, boolean isHorizontal) {
@@ -213,6 +217,10 @@ public class GameGridAdapter extends BaseAdapter {
     		}
     	}
     	return word.toString();
+	}
+
+	public void setDraft(boolean value) {
+		this.isDraft = value;
 	}
 
 }

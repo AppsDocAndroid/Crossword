@@ -17,8 +17,6 @@
 
 package com.crossword.adapter;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -52,6 +50,16 @@ public class GridListAdapter extends BaseAdapter {
 		return this.data.size();
 	}
 
+	@Override
+	public boolean areAllItemsEnabled () {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled (int position) {
+		return !this.data.get(position).isSeparator();
+	}
+	
 	/**
 	 * Return grid for this position
 	 */
@@ -71,6 +79,8 @@ public class GridListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		System.out.println("getview: " + position);
+		
 		View v = this.views.get(position);
 
 		if (this.data.get(position).isSeparator())
@@ -101,18 +111,18 @@ public class GridListAdapter extends BaseAdapter {
 				TextView name = (TextView)v.findViewById(R.id.name);
 				name.setText(this.data.get(position).getName());
 				
-				// Author
-				if (this.data.get(position).getAuthor() != null) {
-					TextView author = (TextView)v.findViewById(R.id.author);
-					author.setText(this.data.get(position).getAuthor());
-				}
-				
-				// Date
-				if (this.data.get(position).getDate() != null) {
-					TextView date = (TextView)v.findViewById(R.id.date);
-					DateFormat df = new SimpleDateFormat("d MMMM yyyy");
-					date.setText(df.format(this.data.get(position).getDate()));
-				}
+//				// Author
+//				if (this.data.get(position).getAuthor() != null) {
+//					TextView author = (TextView)v.findViewById(R.id.author);
+//					author.setText(this.data.get(position).getAuthor());
+//				}
+//				
+//				// Date
+//				if (this.data.get(position).getDate() != null) {
+//					TextView date = (TextView)v.findViewById(R.id.date);
+//					DateFormat df = new SimpleDateFormat("d MMMM yyyy");
+//					date.setText(df.format(this.data.get(position).getDate()));
+//				}
 				
 				// Difficulty
 				ImageView level = (ImageView)v.findViewById(R.id.level);
@@ -164,6 +174,7 @@ public class GridListAdapter extends BaseAdapter {
 	 */
 	public void clear() {
 		this.data.clear();
+		this.views.clear();
 	}
 
 	/**

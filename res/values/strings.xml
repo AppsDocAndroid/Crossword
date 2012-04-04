@@ -7,6 +7,7 @@
     <string name="exception_grid_not_found">La grille n\'a pas put être trouvée</string>
     <string name="exception_sav_not_found">Aucune sauvegarde pour cette grille</string>
     <string name="exception_unknow">Unknow error occurs</string>
+    <string name="exception_network">Connexion impossible, vérifiez votre accès à internet</string>
     <string name="dialog_display_correction">Êtes vous sure d\'afficher la correction ?</string>
     <string name="yes">oui</string>
     <string name="no">non</string>
@@ -28,9 +29,18 @@
     <string name="one_day_ago">Moins d\'une semaine</string>
     <string name="one_week_ago">Plus une semaine</string>
     <string name="one_month_ago">Plus d\'un mois</string>
+    <string name="one_year_ago">Plus d\'un an</string>
     <string name="menu_check">Correction pas à pas</string>
     <string name="menu_solution">Révéler toute la grille</string>
     <string name="menu_settings">Préférences</string>
     <string name="menu_feedback">Feedback</string>
-
+    <string name="menu_refresh">Actualiser</string>
+    <string name="menu_information">Information</string>
+    <string name="notification_check_grids">Vérifie la présence de nouvelles grilles...</string>
+    <string name="notification_update_grids">Téléchargments des nouvelles grilles...</string>
+    <string name="notification_update_grids_complete">Téléchargments terminés</string>
+    <string name="notification_update_grids_status" formatted="false">Grille %d sur %d</string>
+    <string name="grid_list_up_to_date">Pas de nouvelles grilles</string>
+    <string name="grid_list_new">%d nouvelles grilles</string>
+    <string name="grid_list_is_empty">Aucune grille enregistrée</string>
 </resources>

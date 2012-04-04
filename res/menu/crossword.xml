@@ -10,12 +10,16 @@
         android:icon="@drawable/ic_menu_solve"
         android:title="@string/menu_solution"/>
     <item
-        android:id="@+id/menu_main_preferences"
-        android:icon="@android:drawable/ic_menu_preferences"
-        android:title="@string/menu_settings"/>
+        android:id="@+id/menu_grid"
+        android:icon="@drawable/ic_menu_grid"
+        android:title="@string/menu_information"/>
     <item
         android:id="@+id/menu_feedback"
         android:icon="@drawable/ic_menu_notifications"
         android:title="@string/menu_feedback"/>
+    <item
+        android:id="@+id/menu_main_preferences"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/menu_settings"/>
 
 </menu>

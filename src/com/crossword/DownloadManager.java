@@ -23,10 +23,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.crossword.CrosswordException.ExceptionType;
+
 
 public class DownloadManager {
 
-	public static void download(String in, String out) {
+	private static void download(String in, String out) throws CrosswordException {
 		InputStream input = null;
 	    FileOutputStream writeFile = null;
 	
@@ -41,7 +43,7 @@ public class DownloadManager {
 	        if (fileLength == -1)
 	        {
 	            System.out.println("Invalide URL or file.");
-	            return;
+	            throw new CrosswordException(ExceptionType.NETWORK);
 	        }
 	
 	        input = connection.getInputStream();
@@ -74,11 +76,11 @@ public class DownloadManager {
 	    }
 	}
 	
-	public static void downloadGrid(String filename) {
-		DownloadManager.download(String.format(Crossword.GRID_REMOTE_PATH, filename), String.format(Crossword.GRID_LOCAL_PATH, filename));
+	public static void downloadGrid(String filename) throws CrosswordException {
+		DownloadManager.download(String.format(Crossword.GRID_URL, filename), String.format(Crossword.GRID_LOCAL_PATH, filename));
 	}
 
-	public static void downloadListGrid() {
-		DownloadManager.download(Crossword.GRIDLIST_REMOTE_PATH, Crossword.GRIDLIST_LOCAL_PATH);
+	public static void downloadListGrid() throws CrosswordException {
+		DownloadManager.download(Crossword.GRIDLIST_URL, Crossword.GRIDLIST_LOCAL_PATH);
 	}
 }

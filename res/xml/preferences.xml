@@ -8,6 +8,9 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Grid" >
         <CheckBoxPreference
+            android:key="grid_check"
+            android:title="@string/menu_check" />
+        <CheckBoxPreference
             android:key="grid_is_lower"
             android:title="Grille en minuscule" />
         <CheckBoxPreference
