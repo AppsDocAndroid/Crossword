@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <name>Slam</name>
+  <category>Slam</category>
+  <date>30/11/2011</date>
+  <author>Slam</author>
+  <url></url>
+  <level>2</level>
+  <width>9</width>
+  <height>8</height>
+  <horizontal>
+    <word x="1" y="2" description="Partager le quotidien">cohabiter</word>
+    <word x="5" y="4" description="Totalement baba">ahuri</word>
+    <word x="1" y="5" description="Il est très cher a Ulysse">ilien</word>
+    <word x="5" y="6" description="Il est dans les bouchons">liege</word>
+    <word x="1" y="8" description="Tirer une carotte">extorquer</word>
+  </horizontal>
+  <vertical>
+    <word x="1" y="1" description="Touché par la grâce">acquitte</word>
+    <word x="3" y="1" description="Homme de fer">cheminot</word>
+    <word x="5" y="1" description="Faire trembler">ebranler</word>
+    <word x="7" y="2" description="Coincé entre le bélier et le gémeaux">taureau</word>
+    <word x="9" y="1" description="Il va et vient en mer">croiseur</word>
+  </vertical>
+  </grid>

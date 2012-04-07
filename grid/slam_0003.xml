@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <name>Slam</name>
+  <category>Slam</category>
+  <date>30/11/2011</date>
+  <author>Slam</author>
+  <url></url>
+  <level>2</level>
+  <width>9</width>
+  <height>8</height>
+  <horizontal>
+    <word x="1" y="1" description="Sans précipitation">mollement</word>
+    <word x="5" y="3" description="Elle a sa cour">ecole</word>
+    <word x="1" y="4" description="Faire bouillir">enerver</word>
+    <word x="5" y="5" description="Effet de rasoir">ennui</word>
+    <word x="1" y="6" description="Groupe de gorilles">escorte</word>
+    <word x="2" y="8" description="Fille qui imite le garçon">serveuse</word>
+  </horizontal>
+  <vertical>
+    <word x="1" y="1" description="Support pour artistes">mecenes</word>
+    <word x="3" y="1" description="Etudiant qui a réussi">licencie</word>
+    <word x="5" y="1" description="Faire le guide">elever</word>
+    <word x="6" y="3" description="C'est lui qui est visé">centre</word>
+    <word x="7" y="1" description="Faire un marque page">ecorne</word>
+    <word x="9" y="1" description="Donne des coups de pieds">trepigne</word>
+  </vertical>
+  </grid>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <name>Slam</name>
+  <date>7/12/2011</date>
+  <category>Slam</category>
+  <url></url>
+  <author>Slam</author>
+  <level>2</level>
+  <width>9</width>
+  <height>8</height>
+  <horizontal>
+    <word x="3" y="1" description="Pas ramassé">elance</word>
+    <word x="5" y="3" description="Feu de nuit">phare</word>
+    <word x="1" y="4" description="Il finit bien avec le lapin">pruneau</word>
+    <word x="5" y="5" description="Moquerie du village">risee</word>
+    <word x="1" y="6" description="Chant du corbeau chez La Fontaine">ramages</word>
+    <word x="1" y="8" description="Tromper un gros poisson">leurrer</word>
+  </horizontal>
+  <vertical>
+    <word x="1" y="1" description="Son châtiment fait mal">corporel</word>
+    <word x="3" y="1" description="Glace en pied">esquimau</word>
+    <word x="5" y="1" description="Faire la pluie pas le beau temps">asperger</word>
+    <word x="6" y="3" description="Obstacle à franchir">haie</word>
+    <word x="7" y="1" description="Prend son pied avec une charentaise">chausser</word>
+    <word x="9" y="2" description="Bouche d'aération">fenetre</word>
+  </vertical>
+</grid>
