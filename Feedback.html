@@ -78,15 +78,16 @@ $("#searchForm").submit(function(event) {
         
 		/* get some values from elements on the page: */
 		var $form = $( this ),
-			term = $form.find( 'textarea[name="message"]' ).val(),
+			message = $form.find( 'textarea[name="message"]' ).val(),
+			from = $form.find( 'input[name="from"]' ).val(),
 			url = $form.attr( 'action' );
-		
+
 		/* Hide buttons and show loading */
 		$("input[type='submit']").attr("disabled", "disabled");
 		$("input[type='submit']").val("Sending...");
 		
 		/* Send the data using post and put the results in a div */
-		$.post( url, { message: term },
+		$.post( url, { message: message, from: from },
 				function( data ) {
 					var content = $( data ).find( '#content' );
 					$( "#result" ).empty().append( content );
