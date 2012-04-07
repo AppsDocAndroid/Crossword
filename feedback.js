@@ -1,6 +1,6 @@
 /* attach a submit handler to the form */
 $("#searchForm").submit(function(event) {
-		
+
 		/* stop form from submitting normally */
 		event.preventDefault(); 
         
