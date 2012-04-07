@@ -87,17 +87,17 @@ $("#searchForm").submit(function(event) {
 		$("input[type='submit']").val("Sending...");
 		
 		/* Send the data using post and put the results in a div */
-		$.post( url, { message: message, from: from },
-				function( data ) {
-					var content = $( data ).find( '#content' );
-					$( "#result" ).empty().append( content );
-				}
-				)
-			.complete(function(e) {
+	    $.ajax({
+  	      type: "POST",
+	      crossDomain: true,
+	      url: url,
+	      data: { message: message, from: from },
+	      complete: function(e) {
 	                $("#result")[0].innerHTML = e.responseText;
 					$("input[type='submit']").attr("disabled", null);
 					$("input[type='submit']").val("Send");
-				});
+				}
+	    });
 	});
 	</script>
 </body>
