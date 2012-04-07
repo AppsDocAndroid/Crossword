@@ -92,7 +92,7 @@ $("#searchForm").submit(function(event) {
 					$( "#result" ).empty().append( content );
 				}
 				)
-			.complete(function() {
+			.complete(function(e) {
 	                $("#result")[0].innerHTML = e.responseText;
 					$("input[type='submit']").attr("disabled", null);
 					$("input[type='submit']").val("Send");
