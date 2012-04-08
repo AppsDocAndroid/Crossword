@@ -36,7 +36,7 @@
     <string name="menu_refresh">Actualiser</string>
     <string name="menu_information">Information</string>
     <string name="notification_check_grids">Vérifie la présence de nouvelles grilles...</string>
-    <string name="notification_update_grids">Téléchargments des nouvelles grilles...</string>
+    <string name="notification_update_grids">Téléchargements des nouvelles grilles...</string>
     <string name="notification_update_grids_complete">Téléchargments terminés</string>
     <string formatted="false" name="notification_update_grids_status">Grille %d sur %d</string>
     <string name="grid_list_up_to_date">Pas de nouvelles grilles</string>
@@ -50,7 +50,6 @@
 Si vous avez des idées ou si vous rencontrez des problèmes vous pouvez me les faires remonter via cette page, ou sur le GitHub du projet: https://github.com/Isshun/Crossword\n\n
 Les fonctionnalitées à venirs sont:\n
 - Déplacement / zoom de la grille\n
-- Support des grilles de grandes tailles\n
 - Possiblité de switcher en mode paysage\n
 - Meilleur support des tablets\n</string>
     <string name="preferences_clear_cache_warning">Les sauvegardes seront supprimées, continuer ?</string>
