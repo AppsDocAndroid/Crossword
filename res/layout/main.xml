@@ -20,13 +20,12 @@
             android:layout_weight="1" >
 
             <Button
-                android:id="@+id/button_random"
+                android:id="@+id/button_last"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/keyboard_normal"
-                android:drawableTop="@drawable/icon_random"
-                android:text="@string/button_random" />
+                android:drawableTop="@drawable/icon_crossword"
+                android:text="@string/button_last" />
         </FrameLayout>
 
         <FrameLayout

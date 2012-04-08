@@ -139,22 +139,18 @@ public class GridListAdapter extends BaseAdapter {
 			int percent = this.data.get(position).getPercent();
 			if (percent == 0)
 				imgPercent.setImageResource(R.drawable.progress_0);
-			else if (percent <= 15)
+			else if (percent <= 20)
 				imgPercent.setImageResource(R.drawable.progress_1);
-			else if (percent <= 30)
+			else if (percent <= 40)
 				imgPercent.setImageResource(R.drawable.progress_2);
-			else if (percent <= 45)
-				imgPercent.setImageResource(R.drawable.progress_3);
 			else if (percent <= 60)
+				imgPercent.setImageResource(R.drawable.progress_3);
+			else if (percent <= 80)
 				imgPercent.setImageResource(R.drawable.progress_4);
-			else if (percent <= 75)
-				imgPercent.setImageResource(R.drawable.progress_5);
-			else if (percent <= 90)
-				imgPercent.setImageResource(R.drawable.progress_6);
 			else if (percent <= 99)
-				imgPercent.setImageResource(R.drawable.progress_7);
+				imgPercent.setImageResource(R.drawable.progress_5);
 			else
-				imgPercent.setImageResource(R.drawable.progress_8);
+				imgPercent.setImageResource(R.drawable.progress_6);
 		}
 
 		return v;

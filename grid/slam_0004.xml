@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <grid>
-  <name>Slam</name>
+  <name>Emission SLAM 4</name>
   <category>Slam</category>
   <date>01/12/2011</date>
   <author>Slam</author>
-  <level>2</level>
+  <level>3</level>
   <width>9</width>
   <height>8</height>
   <horizontal>

@@ -36,7 +36,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -160,6 +162,12 @@ public class GridListActivity extends CrosswordParentActivity implements OnItemC
 	@Override
 	public void onItemClick(AdapterView<?> p, View v, int i, long l) {
 		Grid grid = (Grid)this.gridAdapter.getItem(i);
+
+		// Save grid name in preference (from 'last grid' on main menu)
+		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		preferences.edit().putString("last_grid", grid.getFileName()).commit();
+
+		// Lauch grid
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra("filename", grid.getFileName());
 		startActivity(intent);
@@ -192,7 +200,7 @@ public class GridListActivity extends CrosswordParentActivity implements OnItemC
 		
 		Context context = getApplicationContext();
 		CharSequence contentTitle = getResources().getString(R.string.notification_update_grids);
-		CharSequence contentText = "Hello World!";
+		CharSequence contentText = "Download grid list";
 		Intent notificationIntent = new Intent(this, GridListActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);

@@ -18,8 +18,12 @@
 package com.crossword.activity;
 
 import com.crossword.R;
+import com.crossword.data.Grid;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -39,7 +43,7 @@ public class MainActivity extends CrosswordParentActivity implements OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        findViewById(R.id.button_random).setOnClickListener(this);
+        findViewById(R.id.button_last).setOnClickListener(this);
         findViewById(R.id.button_list).setOnClickListener(this);
         findViewById(R.id.button_category).setOnClickListener(this);
         findViewById(R.id.button_search).setOnClickListener(this);
@@ -47,10 +51,13 @@ public class MainActivity extends CrosswordParentActivity implements OnClickList
     
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.button_random: {
-				Intent intent = new Intent(this, GameActivity.class);
-				intent.putExtra("filename", "slam_28_11_11.xml");
-				startActivity(intent);
+			case R.id.button_last: {
+				String last = PreferenceManager.getDefaultSharedPreferences(this).getString("last_grid", null);
+				if (last != null) {
+					Intent intent = new Intent(this, GameActivity.class);
+					intent.putExtra("filename", last);
+					startActivity(intent);
+				}
 				break;
 			}
 			case R.id.button_list: {
