@@ -10,9 +10,10 @@
         android:id="@+id/percent"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:layout_weight="0"
-        android:contentDescription="@string/percent" />
+        android:contentDescription="@string/percent"
+        android:src="@drawable/progress_0" />
 
     <TextView
         android:id="@+id/name"

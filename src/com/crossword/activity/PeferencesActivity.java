@@ -52,15 +52,15 @@ public class PeferencesActivity extends PreferenceActivity {
 		btClearCache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				new AlertDialog.Builder(PeferencesActivity.this).setMessage("Les sauvegardes seront supprimées, continuer ?")
-					.setTitle("Vider le cache")
+				new AlertDialog.Builder(PeferencesActivity.this).setMessage(R.string.preferences_clear_cache_warning)
+					.setTitle(R.string.preferences_clear_cache_title)
 				    .setCancelable(false)
-				    .setPositiveButton("Vider", new DialogInterface.OnClickListener() {
+				    .setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
 				        public void onClick(DialogInterface dialog, int id) {
 				        	clearCache();
 				        }
 				    })
-				    .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+				    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 				    	public void onClick(DialogInterface dialog, int id) {
 				    		dialog.cancel();
 				    	}
@@ -78,7 +78,7 @@ public class PeferencesActivity extends PreferenceActivity {
 	    File gridlist = new File(Crossword.GRIDLIST_LOCAL_PATH);
 	    if (gridlist.exists())
 	    	gridlist.delete();
-		Toast.makeText(this, "Suppression des grilles...", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, R.string.preferences_clear_cache_toast, Toast.LENGTH_SHORT).show();
 		finish();
 	}
 

@@ -28,6 +28,7 @@ import com.crossword.data.Word;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.view.Display;
 import android.view.Gravity;
@@ -126,9 +127,9 @@ public class GameGridAdapter extends BaseAdapter {
 		// Creation du composant
 		if (v == null)
 		{
-			v = new TextView(this.context);
+			v = new TextView(context);
 			v.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.FILL_PARENT, this.height));
-			v.setTextSize(20);
+			v.setTextSize((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4 ? 30 : 20);
 			v.setGravity(Gravity.CENTER);
 
 			if (data != null) {
@@ -143,7 +144,7 @@ public class GameGridAdapter extends BaseAdapter {
 		}
 
 		// Si la grille est en mode check, colore les fautes en rouge
-    	if (((GameActivity)this.context).currentMode == GameActivity.GRID_MODE.CHECK)
+    	if (((GameActivity)context).currentMode == GameActivity.GRID_MODE.CHECK)
     	{
     		if (data != null) {
     			v.setTextColor(context.getResources().getColor(data.equalsIgnoreCase(correction) ? R.color.normal : R.color.wrong));

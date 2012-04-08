@@ -10,6 +10,7 @@
     <string name="exception_network">Connexion impossible, vérifiez votre accès à internet</string>
     <string name="dialog_display_correction">Êtes vous sure d\'afficher la correction ?</string>
     <string name="yes">oui</string>
+    <string name="clear">vider</string>
     <string name="no">non</string>
     <string name="display">afficher</string>
     <string name="cancel">annuler</string>
@@ -30,10 +31,8 @@
     <string name="one_week_ago">Plus une semaine</string>
     <string name="one_month_ago">Plus d\'un mois</string>
     <string name="one_year_ago">Plus d\'un an</string>
-    <string name="menu_check">Correction pas à pas</string>
     <string name="menu_solution">Révéler toute la grille</string>
     <string name="menu_settings">Préférences</string>
-    <string name="menu_feedback">Feedback</string>
     <string name="menu_refresh">Actualiser</string>
     <string name="menu_information">Information</string>
     <string name="notification_check_grids">Vérifie la présence de nouvelles grilles...</string>
@@ -54,5 +53,16 @@ Les fonctionnalitées à venirs sont:\n
 - Support des grilles de grandes tailles\n
 - Possiblité de switcher en mode paysage\n
 - Meilleur support des tablets\n</string>
+    <string name="preferences_clear_cache_warning">Les sauvegardes seront supprimées, continuer ?</string>
+    <string name="preferences_clear_cache_toast">Suppression des grilles...</string>
+    <string name="preferences_clear_cache_title">Vider le cache</string>
+    <string name="preferences_clear_cache_summary">Attention: Les sauvegardes seront supprimées</string>
+    <string name="preferences_feedback_summary">Donnez votre avis sur l\'application ou signaler une erreur</string>
+    <string name="preferences_solid_selection_title">Selection persistante</string>
+    <string name="preferences_solid_selection_summary">Toucher les cases noire n\'efface pas la sélection</string>
+    <string name="preferences_grid_is_lower_title">Grille en minuscule</string>
+    <string name="preferences_check_summary">Les lettres fausses apparaissent en rouge</string>
+    <string name="preferences_check_title">Correction pas à pas</string>
+    <string name="preferences_feedback_title">Feedback</string>
 
 </resources>

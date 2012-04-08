@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grid>
+  <name>Grille 1</name>
+  <date>03/01/2012</date>
+  <author>Isshun</author>
+  <level>1</level>
+  <width>9</width>
+  <height>9</height>
+  <horizontal>
+    <word x="1" y="1" description="Terminer triomphalement">apotheose</word>
+    <word x="3" y="2" description="Dedans">ceans</word>
+    <word x="1" y="3" description="Enferma">barricada</word>
+    <word x="1" y="4" description="Colère">ire</word>
+    <word x="5" y="4" description="Le tien">ta</word>
+    <word x="8" y="4" description="Badine">ri</word>
+    <word x="1" y="5" description="Aigre">amer</word>
+    <word x="6" y="5" description="Découpe">scie</word>
+    <word x="1" y="6" description="Non">ne</word>
+    <word x="4" y="6" description="Matière précieuse">or</word>
+    <word x="7" y="6" description="Avion sans moteur">ulm</word>
+    <word x="1" y="7" description="Alligator">crocodile</word>
+    <word x="3" y="8" description="Faire des nœuds">nouer</word>
+    <word x="1" y="9" description="Repérait">situerait</word>
+  </horizontal>
+  <vertical>
+    <word x="1" y="1" description="Atmosphères d'un lieu">ambiances</word>
+    <word x="2" y="3" description="Équiper">armer</word>
+    <word x="3" y="1" description="Qui est coloré de jaune">ocree</word>
+    <word x="3" y="7" description="Être en possession">ont</word>
+    <word x="4" y="1" description="Transport régional">ter</word>
+    <word x="4" y="5" description="Colorant rouge orangé">rocou</word>
+    <word x="5" y="1" description="Déteste">hait</word>
+    <word x="5" y="6" description="Disque tournant">roue</word>
+    <word x="6" y="1" description="Repas léger">encas</word>
+    <word x="6" y="7" description="Région de Champagne">der</word>
+    <word x="7" y="1" description="Tenta">osa</word>
+    <word x="7" y="5" description="Chauffera">cuira</word>
+    <word x="8" y="3" description="Cousin mandrill">drill</word>
+    <word x="9" y="1" description="Fait d'étayer">etaiement</word>
+  </vertical>
+</grid>

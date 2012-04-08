@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/background"
     android:baselineAligned="false"
     android:orientation="vertical" >
 
@@ -24,8 +25,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#a000"
                 android:drawableTop="@drawable/icon_crossword"
-                android:text="@string/button_last" />
+                android:padding="7dp"
+                android:text="@string/button_last"
+                android:textColor="#fff" />
         </FrameLayout>
 
         <FrameLayout
@@ -39,8 +43,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#a000"
                 android:drawableTop="@drawable/icon_list"
-                android:text="@string/button_list" />
+                android:padding="7dp"
+                android:text="@string/button_list"
+                android:textColor="#fff" />
         </FrameLayout>
     </LinearLayout>
 
@@ -62,8 +69,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#a000"
                 android:drawableTop="@drawable/icon_category"
-                android:text="@string/button_category" />
+                android:padding="7dp"
+                android:text="@string/button_category"
+                android:textColor="#fff" />
         </FrameLayout>
 
         <FrameLayout
@@ -77,8 +87,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:background="#a000"
                 android:drawableTop="@drawable/icon_search"
-                android:text="@string/button_search" />
+                android:padding="7dp"
+                android:text="@string/button_search"
+                android:textColor="#fff" />
         </FrameLayout>
     </LinearLayout>
 

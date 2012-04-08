@@ -167,31 +167,8 @@ public class GameActivity extends CrosswordParentActivity implements OnTouchList
 	    
 		readPreferences();
 	    
-	    this.filename = getIntent().getExtras().getString("filename");
-	    
-        Display display = getWindowManager().getDefaultDisplay();
-        int height = display.getHeight();
-        int keyboardHeight = (int)(height / 4.4);
-
-    	this.txtDescription = (TextView)findViewById(R.id.description);
-
-        this.gridView = (GridView)findViewById(R.id.grid);
-        this.gridView.setOnTouchListener(this);
-        this.gridView.setNumColumns(Crossword.GRID_WIDTH);
-        android.view.ViewGroup.LayoutParams gridParams = this.gridView.getLayoutParams();
-        gridParams.height = height - keyboardHeight - this.txtDescription.getLayoutParams().height;
-        this.gridView.setLayoutParams(gridParams);
-        this.gridView.setVerticalScrollBarEnabled(false);
-
-        this.keyboardView = (KeyboardView)findViewById(R.id.keyboard);
-        this.keyboardView.setDelegate(this);
-        android.view.ViewGroup.LayoutParams KeyboardParams = this.keyboardView.getLayoutParams();
-        KeyboardParams.height = keyboardHeight;
-        this.keyboardView.setLayoutParams(KeyboardParams);
-
-        this.keyboardOverlay = (TextView)findViewById(R.id.keyboard_overlay);
-
 	    try {
+		    this.filename = getIntent().getExtras().getString("filename");
 			File file = new File(String.format(Crossword.GRID_LOCAL_PATH, this.filename));
 			if (file.exists())
 			{
@@ -212,8 +189,6 @@ public class GameActivity extends CrosswordParentActivity implements OnTouchList
 			    	finish();
 			    	return;
 			    }
-				this.gridAdapter = new GameGridAdapter(this, this.entries);
-				this.gridView.setAdapter(this.gridAdapter);
 			}
 			else
 			{
@@ -224,6 +199,30 @@ public class GameActivity extends CrosswordParentActivity implements OnTouchList
 			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+
+	    Display display = getWindowManager().getDefaultDisplay();
+        int height = display.getHeight();
+        int keyboardHeight = (int)(height / 4.4);
+		
+		this.txtDescription = (TextView)findViewById(R.id.description);
+
+        this.gridView = (GridView)findViewById(R.id.grid);
+        this.gridView.setOnTouchListener(this);
+        this.gridView.setNumColumns(Crossword.GRID_WIDTH);
+        android.view.ViewGroup.LayoutParams gridParams = this.gridView.getLayoutParams();
+        gridParams.height = height - keyboardHeight - this.txtDescription.getLayoutParams().height;
+        this.gridView.setLayoutParams(gridParams);
+        this.gridView.setVerticalScrollBarEnabled(false);
+		this.gridAdapter = new GameGridAdapter(this, this.entries);
+		this.gridView.setAdapter(this.gridAdapter);
+
+        this.keyboardView = (KeyboardView)findViewById(R.id.keyboard);
+        this.keyboardView.setDelegate(this);
+        android.view.ViewGroup.LayoutParams KeyboardParams = this.keyboardView.getLayoutParams();
+        KeyboardParams.height = keyboardHeight;
+        this.keyboardView.setLayoutParams(KeyboardParams);
+
+        this.keyboardOverlay = (TextView)findViewById(R.id.keyboard_overlay);
 	}
 
 	@Override

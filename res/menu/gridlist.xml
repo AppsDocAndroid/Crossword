@@ -5,10 +5,12 @@
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_menu_refresh"
         android:title="@string/menu_refresh"/>
+
     <item
         android:id="@+id/menu_feedback"
         android:icon="@drawable/ic_menu_notifications"
-        android:title="@string/menu_feedback"/>
+        android:title="@string/preferences_feedback_title"/>
+
     <item
         android:id="@+id/menu_main_preferences"
         android:icon="@android:drawable/ic_menu_preferences"
