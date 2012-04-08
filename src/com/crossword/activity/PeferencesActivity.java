@@ -22,6 +22,9 @@ import java.io.File;
 import com.crossword.Crossword;
 import com.crossword.R;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -35,11 +38,33 @@ public class PeferencesActivity extends PreferenceActivity {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.preferences);
 		
+		Preference btFeedback = (Preference)findPreference("feedback");
+		btFeedback.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				startActivity(new Intent(PeferencesActivity.this, FeedbackActivity.class));
+				return true;
+			}
+		});
+
+		
 		Preference btClearCache = (Preference)findPreference("clear_cache");
 		btClearCache.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				clearCache();
+				new AlertDialog.Builder(PeferencesActivity.this).setMessage("Les sauvegardes seront supprimées, continuer ?")
+					.setTitle("Vider le cache")
+				    .setCancelable(false)
+				    .setPositiveButton("Vider", new DialogInterface.OnClickListener() {
+				        public void onClick(DialogInterface dialog, int id) {
+				        	clearCache();
+				        }
+				    })
+				    .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+				    	public void onClick(DialogInterface dialog, int id) {
+				    		dialog.cancel();
+				    	}
+				    }).create().show();
 				return true;
 			}
 		});
@@ -53,7 +78,7 @@ public class PeferencesActivity extends PreferenceActivity {
 	    File gridlist = new File(Crossword.GRIDLIST_LOCAL_PATH);
 	    if (gridlist.exists())
 	    	gridlist.delete();
-		Toast.makeText(this, "clear...", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Suppression des grilles...", Toast.LENGTH_SHORT).show();
 		finish();
 	}
 

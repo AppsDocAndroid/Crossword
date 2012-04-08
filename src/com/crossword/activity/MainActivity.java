@@ -18,10 +18,7 @@
 package com.crossword.activity;
 
 import com.crossword.R;
-import com.crossword.data.Grid;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;

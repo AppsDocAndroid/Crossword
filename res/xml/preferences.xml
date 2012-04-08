@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <PreferenceCategory android:title="Utilisateur" >
-        <Preference
-            android:key="clear_cache"
-            android:title="Clear cache" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="Grid" >
+    <PreferenceCategory android:title="Plateau" >
         <CheckBoxPreference
             android:key="grid_check"
-            android:title="@string/menu_check" />
+            android:title="@string/menu_check"
+            android:summary="Les lettres fausses apparaissent en rouge" />
         <CheckBoxPreference
             android:key="grid_is_lower"
             android:title="Grille en minuscule" />
         <CheckBoxPreference
             android:key="solid_selection"
-            android:title="Selection persistante" />
+            android:title="Selection persistante"
+            android:summary="Toucher les cases noire n'efface pas la sélection" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Feedback" >
+        <Preference
+            android:key="feedback"
+            android:title="Feedback"
+            android:summary="Donnez votre avis sur l'application ou signaler une erreur" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Grilles" >
+        <Preference
+            android:key="clear_cache"
+            android:title="Vider le cache"
+            android:summary="Attention: Les sauvegardes seront supprimées" />
     </PreferenceCategory>
 
 </PreferenceScreen>
