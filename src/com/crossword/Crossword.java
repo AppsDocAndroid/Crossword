@@ -21,6 +21,7 @@ import java.io.File;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 
 public class Crossword extends Application {
 
@@ -33,17 +34,17 @@ public class Crossword extends Application {
 	public static final String	GRIDLIST_LOCAL_PATH = "/data/data/com.crossword/gridlist.xml";
 	public static final long 	GRIDLIST_LIFE_TIME = 86400000;
 	public static final int		REQUEST_PREFERENCES = 2;
-//	public static final int 	GRID_WIDTH = 12;
-//	public static final int 	GRID_HEIGHT = 10;
 	public static final float 	KEYBOARD_OVERLAY_OFFSET = 90;
 	public static final String 	NAME = "Crossword";
-	public static final boolean DEBUG = true;
 	public static final int 	NOTIFICATION_DOWNLOAD_ID = 1;
+	public static boolean 		DEBUG;
 
     private static Context context;
 
     public void onCreate() {
         Crossword.context = getApplicationContext();
+        
+        Crossword.DEBUG = (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
 
 		File directory = new File(GRID_DIRECTORY);
 		if (directory.exists() == false)

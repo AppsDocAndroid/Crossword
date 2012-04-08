@@ -19,7 +19,7 @@
         <Preference
             android:key="feedback"
             android:title="@string/preferences_feedback_title"
-            android:summary="preferences_feedback_summary" />
+            android:summary="@string/preferences_feedback_summary" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Grilles" >
