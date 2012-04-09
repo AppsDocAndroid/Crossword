@@ -89,7 +89,7 @@ $('input[name="make"]').click(function() {
 
 				if (cells[j].value != "") {
 					if (word_h == null)
-						word_h = new Word("", x, y, "");
+						word_h = new Word("", y, x, "");
 					word_h.word += cells[j].value;
 				}
 				if (cells[j].value == "" || y == size-1) {
@@ -100,7 +100,7 @@ $('input[name="make"]').click(function() {
 				if (cells[i].value != "") {
 					if (word_v == null)
 						word_v = new Word("", x, y, "");
-					word_v.word += cells[j].value;
+					word_v.word += cells[i].value;
 				}
 				if (cells[i].value == "" || y == size-1) {
 					if (word_v != null && word_v.word.length > 1) v.push(word_v);
