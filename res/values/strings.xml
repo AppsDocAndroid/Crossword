@@ -27,6 +27,7 @@
     <string name="percent">Pourcentage</string>
     <string name="save_dialog_title">Enregistrement</string>
     <string name="save_dialog_content">Enregistrement de la grille</string>
+    <string name="today">"Aujourd\'hui"</string>
     <string name="one_day_ago">Moins d\'une semaine</string>
     <string name="one_week_ago">Plus une semaine</string>
     <string name="one_month_ago">Plus d\'un mois</string>

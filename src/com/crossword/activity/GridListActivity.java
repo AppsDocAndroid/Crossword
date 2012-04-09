@@ -144,6 +144,7 @@ public class GridListActivity extends CrosswordParentActivity implements OnItemC
 	    }
 
 	    // Add separator (a week ago, two week ago, a month ago)
+	    this.gridAdapter.addSeparator(getString(R.string.today), 0);
 	    this.gridAdapter.addSeparator(getString(R.string.one_day_ago), -1);
 	    this.gridAdapter.addSeparator(getString(R.string.one_week_ago), -7);
 	    this.gridAdapter.addSeparator(getString(R.string.one_month_ago), -31);

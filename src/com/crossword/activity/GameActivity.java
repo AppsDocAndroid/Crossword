@@ -438,8 +438,8 @@ public class GameActivity extends CrosswordParentActivity implements OnTouchList
 	    	int y = entry.getY();
     	    String word = String.format(
     	    		"<word x=\"%d\" y=\"%d\" description=\"%s\" tmp=\"%s\">%s</word>\n",
-    	    		x + 1,
-    	    		y + 1,
+    	    		x,
+    	    		y,
     	    		entry.getDescription(),
     	    		this.gridAdapter.getWord(x, y, entry.getLength(), entry.getHorizontal()),
     	    		entry.getText());

@@ -58,8 +58,8 @@ public class CrosswordParser extends DefaultHandler {
 		
 		if (localName.equalsIgnoreCase("word")) {
 			this.currentFeed = new Word();
-			this.currentFeed.setX(Integer.parseInt(attributes.getValue("x"))-1);
-			this.currentFeed.setY(Integer.parseInt(attributes.getValue("y"))-1);
+			this.currentFeed.setX(Integer.parseInt(attributes.getValue("x")));
+			this.currentFeed.setY(Integer.parseInt(attributes.getValue("y")));
 			this.currentFeed.setTmp(attributes.getValue("tmp"));
 			this.currentFeed.setDescription(attributes.getValue("description"));
 			this.currentFeed.setHorizontal(this.inHorizontal);

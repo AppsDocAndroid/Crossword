@@ -9,7 +9,7 @@
   <width>12</width>
   <height>12</height>
   <horizontal>
-	<word y="1" x="0" description="En usant des plus grandes atrocités">affreusement</word>
+	<word y="0" x="0" description="En usant des plus grandes atrocités">affreusement</word>
 	<word y="1" x="0" description="Grands de ce monde">colosses</word>
 	<word y="1" x="9" description="Changement de saison">mue</word>
 	<word y="2" x="0" description="Visibles dans la gueule du loup">crocs</word>
@@ -35,7 +35,7 @@
 	<word y="11" x="6" description="Exercer un contrôle">tester</word>
   </horizontal>
   <vertical>
-	<word x="1" y="0" description="Elle se prend généralement à toute vitesse">acceleration</word>
+	<word x="0" y="0" description="Elle se prend généralement à toute vitesse">acceleration</word>
 	<word x="1" y="0" description="Elle tient bien la baraque">foraine</word>
 	<word x="1" y="8" description="Faisait divinement la bise">eole</word>
 	<word x="2" y="0" description="Pas très nets">flous</word>
