@@ -80,25 +80,31 @@ $('input[name="make"]').click(function() {
 		var cells = $('table').find('input');
 		var h = new Array();
 		var v = new Array();
-		var word_h = "";
-		var word_v = "";
+		var word_h = null;
+		var word_v = null;
 		for (var x = 0; x < size; x++) {
 			for (var y = 0; y < size; y++) {
 				j = x * size + y;
 				i = x + y * size;
 
-				if (cells[j].value != "")
-					word_h += cells[j].value;
+				if (cells[j].value != "") {
+					if (word_h == null)
+						word_h = new Word("", x, y, "");
+					word_h.word += cells[j].value;
+				}
 				if (cells[j].value == "" || y == size-1) {
-					if (word_h.length > 1) h.push(new Word(word_h, x, y, ""));
-					word_h = "";
+					if (word_h != null && word_h.word.length > 1) h.push(word_h);
+					word_h = null;
 				}
 
-				if (cells[i].value != "")
-					word_v += cells[i].value;
+				if (cells[i].value != "") {
+					if (word_v == null)
+						word_v = new Word("", x, y, "");
+					word_v.word += cells[j].value;
+				}
 				if (cells[i].value == "" || y == size-1) {
-					if (word_v.length > 1) v.push(new Word(word_v, x, y, ""));
-					word_v = "";
+					if (word_v != null && word_v.word.length > 1) v.push(word_v);
+					word_v = null;
 				}
 			}
 		}
