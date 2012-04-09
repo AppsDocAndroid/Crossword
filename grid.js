@@ -146,8 +146,8 @@ function writeXML(h, v) {
 	xml += "<url/>\n";
 	xml += "<author>Gwendoline Dufour</author>\n";
 	xml += "<level>1</level>\n";
-	xml += "<width>9</width>\n";
-	xml += "<height>9</height>\n";
+	xml += "<width>" + size + "</width>\n";
+	xml += "<height" + size + "</height>\n";
 	xml += "<horizontal>\n";
 	for (var i in h) {
 		xml += "<word x=\"" + h[i].x + "\" y=\"" + h[i].y + "\" description=\"" + h[i].desc + "\">" + h[i].word + "</word>\n";
