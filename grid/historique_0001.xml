@@ -9,35 +9,35 @@
   <width>9</width>
   <height>9</height>
   <horizontal>
-    <word x="1" y="1" description="Champêtre">pastorale</word>
-    <word x="1" y="2" description="Favorable">ami</word>
-    <word x="7" y="2" description="Chiffre">six</word>
-    <word x="1" y="3" description="Note">re</word>
-    <word x="4" y="3" description="Arme">arc</word>
-    <word x="8" y="3" description="Préposition">et</word>
-    <word x="1" y="5" description="Fleur">iris</word>
-    <word x="6" y="5" description="L'égal de quelqu’un">pair</word>
-    <word x="1" y="7" description="Pronom">il</word>
-    <word x="4" y="7" description="Appel">cri</word>
-    <word x="8" y="7" description="Note">si</word>
-    <word x="1" y="8" description="Arbre">pin</word>
-    <word x="7" y="8" description="Particule d’atome">ion</word>
-    <word x="1" y="9" description="Vive lueur">etincelle</word>
+    <word x="0" y="0" description="Champêtre">pastorale</word>
+    <word x="0" y="1" description="Favorable">ami</word>
+    <word x="6" y="1" description="Chiffre">six</word>
+    <word x="0" y="2" description="Note">re</word>
+    <word x="3" y="2" description="Arme">arc</word>
+    <word x="7" y="2" description="Préposition">et</word>
+    <word x="0" y="4" description="Fleur">iris</word>
+    <word x="5" y="4" description="L'égal de quelqu’un">pair</word>
+    <word x="0" y="6" description="Pronom">il</word>
+    <word x="3" y="6" description="Appel">cri</word>
+    <word x="7" y="6" description="Note">si</word>
+    <word x="0" y="7" description="Arbre">pin</word>
+    <word x="6" y="7" description="Particule d’atome">ion</word>
+    <word x="0" y="8" description="Vive lueur">etincelle</word>
   </horizontal>
   <vertical>
-    <word x="1" y="1" description="Temps de verbe">participe</word>
-    <word x="2" y="1" description="Conscience intime">ame</word>
-    <word x="2" y="7" description="Note">lit</word>
-    <word x="3" y="1" description="Personnage légendaire">si</word>
-    <word x="3" y="4" description="Terme de jeu">nil</word>
-    <word x="3" y="8" description="Dépôt de liquide">ni</word>
-    <word x="5" y="1" description="Détruit">ogre</word>
-    <word x="5" y="6" description="Fleuve">frac</word>
-    <word x="7" y="1" description="Petit animal">as</word>
-    <word x="7" y="4" description="Vêtement">rat</word>
-    <word x="7" y="8" description="Meuble">il</word>
-    <word x="8" y="1" description="La terre">lie</word>
-    <word x="8" y="7" description="Négation">sol</word>
-    <word x="9" y="1" description="Pronom">extermine</word>
+    <word x="0" y="0" description="Temps de verbe">participe</word>
+    <word x="1" y="0" description="Conscience intime">ame</word>
+    <word x="1" y="6" description="Note">lit</word>
+    <word x="2" y="0" description="Personnage légendaire">si</word>
+    <word x="2" y="3" description="Terme de jeu">nil</word>
+    <word x="2" y="7" description="Dépôt de liquide">ni</word>
+    <word x="4" y="0" description="Détruit">ogre</word>
+    <word x="4" y="5" description="Fleuve">frac</word>
+    <word x="6" y="0" description="Petit animal">as</word>
+    <word x="6" y="3" description="Vêtement">rat</word>
+    <word x="6" y="7" description="Meuble">il</word>
+    <word x="7" y="0" description="La terre">lie</word>
+    <word x="7" y="6" description="Négation">sol</word>
+    <word x="8" y="0" description="Pronom">extermine</word>
   </vertical>
 </grid>

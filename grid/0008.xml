@@ -9,21 +9,21 @@
   <width>9</width>
   <height>9</height>
   <horizontal>
-    <word x="1" y="1" description="ddddddddddddddddddddddddd">mari</word>
-    <word x="6" y="1" description="ddddddddddddddddddddddddd">daim</word>
-    <word x="1" y="3" description="ddddddddddddddddddddddddd">rayonne</word>
-    <word x="3" y="5" description="ddddddddddddddddddddddddd">alienee</word>
-    <word x="4" y="7" description="ddddddddddddddddddddddddd">depart</word>
-    <word x="3" y="8" description="ddddddddddddddddddddddddd">roti</word>
-    <word x="1" y="9" description="ddddddddddddddddddddddddd">ne</word>
+    <word x="0" y="0" description="ddddddddddddddddddddddddd">mari</word>
+    <word x="5" y="0" description="ddddddddddddddddddddddddd">daim</word>
+    <word x="0" y="2" description="ddddddddddddddddddddddddd">rayonne</word>
+    <word x="2" y="4" description="ddddddddddddddddddddddddd">alienee</word>
+    <word x="3" y="6" description="ddddddddddddddddddddddddd">depart</word>
+    <word x="2" y="7" description="ddddddddddddddddddddddddd">roti</word>
+    <word x="0" y="8" description="ddddddddddddddddddddddddd">ne</word>
   </horizontal>
   <vertical>
-    <word x="1" y="1" description="ddddddddddddddddddddddddd">mirages</word>
-    <word x="4" y="5" description="ddddddddddddddddddddddddd">lido</word>
-    <word x="5" y="7" description="ddddddddddddddddddddddddd">et</word>
-    <word x="6" y="1" description="ddddddddddddddddddddddddd">donne</word>
-    <word x="6" y="7" description="ddddddddddddddddddddddddd">pi</word>
-    <word x="8" y="7" description="ddddddddddddddddddddddddd">done</word>
-    <word x="9" y="1" description="ddddddddddddddddddddddddd">mefient</word>
+    <word x="0" y="0" description="ddddddddddddddddddddddddd">mirages</word>
+    <word x="3" y="4" description="ddddddddddddddddddddddddd">lido</word>
+    <word x="4" y="6" description="ddddddddddddddddddddddddd">et</word>
+    <word x="5" y="0" description="ddddddddddddddddddddddddd">donne</word>
+    <word x="5" y="6" description="ddddddddddddddddddddddddd">pi</word>
+    <word x="7" y="6" description="ddddddddddddddddddddddddd">done</word>
+    <word x="8" y="0" description="ddddddddddddddddddddddddd">mefient</word>
   </vertical>
 </grid>

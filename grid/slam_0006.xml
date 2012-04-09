@@ -9,17 +9,17 @@
   <width>9</width>
   <height>8</height>
   <horizontal>
-    <word x="1" y="1" description="Laissés en vacances">inoccupes</word>
-    <word x="1" y="4" description="Fait le pont">relie</word>
-    <word x="5" y="5" description="Faire son temps">durer</word>
-    <word x="1" y="6" description="Bien reçu">senti</word>
-    <word x="3" y="8" description="Femme que l'on a contre soi">ennemie</word>
+    <word x="0" y="0" description="Laissés en vacances">inoccupes</word>
+    <word x="0" y="3" description="Fait le pont">relie</word>
+    <word x="4" y="4" description="Faire son temps">durer</word>
+    <word x="0" y="5" description="Bien reçu">senti</word>
+    <word x="2" y="7" description="Femme que l'on a contre soi">ennemie</word>
   </horizontal>
   <vertical>
-    <word x="1" y="1" description="Elle n'est pas désirée">intruse</word>
-    <word x="3" y="1" description="On y nage avec aisance">opulence</word>
-    <word x="5" y="1" description="C'est un joueur professionnel">comedien</word>
-    <word x="7" y="3" description="Bébel pour Belmondo">surnom</word>
-    <word x="9" y="1" description="Il permet de donner son avis">suffrage</word>
+    <word x="0" y="0" description="Elle n'est pas désirée">intruse</word>
+    <word x="2" y="0" description="On y nage avec aisance">opulence</word>
+    <word x="4" y="0" description="C'est un joueur professionnel">comedien</word>
+    <word x="6" y="2" description="Bébel pour Belmondo">surnom</word>
+    <word x="8" y="0" description="Il permet de donner son avis">suffrage</word>
   </vertical>
   </grid>
