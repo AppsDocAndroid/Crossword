@@ -36,7 +36,7 @@
     <word x="7" y="1" description="Emousser">user</word>
     <word x="7" y="6" description="Un je-ne-sais-quoi">quel</word>
     <word x="8" y="1" description="Expédient">ressource</word>
-    <word x="10" y="1" description="Partie de partie">set</word>
-    <word x="10" y="5" description="Prend fin">cesse</word>
+    <word x="9" y="1" description="Partie de partie">set</word>
+    <word x="9" y="5" description="Prend fin">cesse</word>
   </vertical>
 </grid>
