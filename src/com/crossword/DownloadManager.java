@@ -48,9 +48,8 @@ public class DownloadManager {
 	
 	        input = connection.getInputStream();
 	        writeFile = new FileOutputStream(out);
-	        byte[] buffer = new byte[1024];
 	        int read;
-	
+	        byte[] buffer = new byte[1024];
 	        while ((read = input.read(buffer)) > 0)
 	            writeFile.write(buffer, 0, read);
 	        writeFile.flush();
