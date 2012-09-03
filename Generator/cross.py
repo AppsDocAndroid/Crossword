@@ -1,6 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# test line
+#
+#   sur tte les positions
+#     sur tout les mots
+#       si le mot match
+#         si test dessous
+#           return ok
+#
+#   rien n'a match -> return faux
+
 from words import words
 from array import *
 import random
